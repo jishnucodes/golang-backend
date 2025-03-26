@@ -1,0 +1,38 @@
+2025/03/26 10:13:09 Running on port 8088
+2025/03/26 11:42:16 user fetched successfully
+2025/03/26 11:56:26 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/26 11:56:26 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/26 15:06:32 user fetched successfully
+2025/03/26 15:43:31 Running on port 8088
+2025/03/26 15:49:23 Error executing stored procedure EXEC sp_CMS_InsertPatient @PatientJSON = ?: mssql: Invalid object name 'ubtUser.Patients'.
+2025/03/26 15:49:23 patient details insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertPatient @PatientJSON = ?: mssql: Invalid object name 'ubtUser.Patients'.
+2025/03/26 15:50:50 patient created successfully
+2025/03/26 15:52:05 patient created successfully
+2025/03/26 17:07:00 user fetched successfully
+2025/03/26 17:34:06 Running on port 8088
+2025/03/26 17:36:54 user created successfully
+2025/03/26 17:40:34 Running on port 8088
+2025/03/26 17:41:15 user created successfully
+2025/03/26 17:42:05 Running on port 8088
+2025/03/26 17:42:19 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/26 17:42:19 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/26 17:42:35 user created successfully
+2025/03/26 18:46:34 Running on port 8088
+2025/03/26 18:47:15 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Error number 5003 in the THROW statement is outside the valid range. Specify an error number in the valid range of 50000 to 2147483647.
+2025/03/26 18:47:15 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Error number 5003 in the THROW statement is outside the valid range. Specify an error number in the valid range of 50000 to 2147483647.
+2025/03/26 18:47:57 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Error number 5003 in the THROW statement is outside the valid range. Specify an error number in the valid range of 50000 to 2147483647.
+2025/03/26 18:47:57 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Error number 5003 in the THROW statement is outside the valid range. Specify an error number in the valid range of 50000 to 2147483647.
+2025/03/26 18:48:28 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:48:28 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:49:48 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:49:48 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:50:34 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:50:34 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:51:07 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:51:07 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:51:56 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:51:56 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 18:59:26 user created successfully
+2025/03/26 19:15:19 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 19:15:19 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/26 19:15:32 user created successfully
