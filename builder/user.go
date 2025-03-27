@@ -7,29 +7,28 @@ import (
 
 // UserDTO represents the structure of the user data.
 type UserDTO struct {
-	UserID        uint     
-	FirstName     string    
-	LastName      string    
-	DOB           time.Time                     
-	Gender        string    
-	ContactNumber string    
-	Email         string    
-	Address       string    
-	Role          string    
-	BiometricData []byte    
-	Password  string    
-	CreatedAt     time.Time 
-	CreatedBy     string                   
-	ModifiedAt    time.Time 
-	ModifiedBy    string    
-
-
+	UserID        uint      `json:"userId"`
+	FirstName     string    `json:"firstName"`
+	LastName      string    `json:"lastName"`
+	DOB           time.Time `json:"dateOfBirth"`
+	Gender        string    `json:"gender"`
+	ContactNumber string    `json:"contactNumber"`
+	Email         string    `json:"email"`
+	Address       string    `json:"address"`
+	Role          string    `json:"role"`
+	BiometricData []byte    `json:"biometricData"`
+	Password      string    `json:"password"`
+	CreatedAt     time.Time `json:"createdAt"`
+	CreatedBy     string    `json:"createdBy"`
+	ModifiedAt    time.Time `json:"modifiedAt"`
+	ModifiedBy    string    `json:"modifiedBy"`
 }
 
 // BuildUserDTO constructs and returns a UserDTO from userData.
 func BuildUserDTO(userData *common.UserObj) *UserDTO {
 	var userObj UserDTO
 
+	// Mapping fields from UserObj to UserDTO
 	userObj.UserID = userData.UserID
 	userObj.FirstName = userData.FirstName
 	userObj.LastName = userData.LastName
@@ -46,5 +45,16 @@ func BuildUserDTO(userData *common.UserObj) *UserDTO {
 	userObj.ModifiedAt = userData.ModifiedAt
 	userObj.ModifiedBy = userData.ModifiedBy
 
-	return &userObj;
+	return &userObj
+}
+
+
+// BuildUserDTOs accepts a slice of UserDTO and returns it (or processes it further).
+func BuildUserDTOs(userDTOList []UserDTO) []*UserDTO {
+	var userDTOs []*UserDTO 
+	// so we can just append them directly to the return list.
+	for _, userDTO := range userDTOList {
+		userDTOs = append(userDTOs, &userDTO)
+	}
+	return userDTOs
 }

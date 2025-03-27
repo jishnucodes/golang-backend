@@ -1,6 +1,8 @@
 package common
 
-import "time"
+import (
+	"time"
+)
 
 type UserObj struct {
 	UserID        uint      `json:"userid" gorm:"primaryKey"`
@@ -42,3 +44,4 @@ func NewUserLoginInput() *UserLoginInput {
 func NewUserOb() *UserObj {
 	return &UserObj{}
 }
+

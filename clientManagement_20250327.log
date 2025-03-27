@@ -1,0 +1,120 @@
+2025/03/27 12:00:31 Running on port 8088
+2025/03/27 12:01:12 Running on port 8088
+2025/03/27 12:04:12 Running on port 8088
+2025/03/27 12:10:30 binding user details from JSON failed: parsing time "2001-01-22" as "2006-01-02T15:04:05Z07:00": cannot parse "" as "T"
+2025/03/27 12:12:26 binding user details from JSON failed: parsing time "1990-05-15" as "2006-01-02T15:04:05Z07:00": cannot parse "" as "T"
+2025/03/27 12:15:48 Running on port 8088
+2025/03/27 12:16:00 binding user details from JSON failed: illegal base64 data at input byte 4
+2025/03/27 12:20:22 Running on port 8088
+2025/03/27 12:21:11 binding user details from JSON failed: illegal base64 data at input byte 4
+2025/03/27 12:22:32 binding user details from JSON failed: illegal base64 data at input byte 4
+2025/03/27 12:22:49 binding user details from JSON failed: illegal base64 data at input byte 4
+2025/03/27 12:24:21 user updated successfully
+2025/03/27 12:25:13 binding user details from JSON failed: parsing time "2001-01-22" as "2006-01-02T15:04:05Z07:00": cannot parse "" as "T"
+2025/03/27 12:26:19 binding user details from JSON failed: invalid character '"' after object key:value pair
+2025/03/27 12:26:25 user updated successfully
+2025/03/27 12:26:33 user updated successfully
+2025/03/27 12:54:19 Running on port 8088
+2025/03/27 12:55:07 binding user details from JSON failed: EOF
+2025/03/27 12:56:14 Running on port 8088
+2025/03/27 12:56:27 user updated successfully
+2025/03/27 13:00:30 Running on port 8088
+2025/03/27 13:00:39 user updated successfully
+2025/03/27 13:01:46 Running on port 8088
+2025/03/27 13:01:52 user updated successfully
+2025/03/27 13:05:41 Running on port 8088
+2025/03/27 13:06:02 user updated successfully
+2025/03/27 13:08:03 Running on port 8088
+2025/03/27 13:08:10 user updated successfully
+2025/03/27 13:11:58 Running on port 8088
+2025/03/27 13:13:50 Running on port 8088
+2025/03/27 13:13:58 user updated successfully
+2025/03/27 13:18:17 user updated successfully
+2025/03/27 13:22:28 Running on port 8088
+2025/03/27 13:22:38 user updated successfully
+2025/03/27 13:53:52 Running on port 8088
+2025/03/27 13:54:03 user updated successfully
+2025/03/27 15:19:35 Running on port 8088
+2025/03/27 15:19:46 unexpected result type, expected *models.CMSUser
+2025/03/27 15:20:27 unexpected result type, expected *models.CMSUser
+2025/03/27 15:23:10 Running on port 8088
+2025/03/27 15:23:21 unexpected result type, expected *builder.UserDTO
+2025/03/27 15:23:21 user update failed: unexpected result type, expected *builder.UserDTO
+2025/03/27 15:26:07 Running on port 8088
+2025/03/27 15:26:15 unexpected result type, expected *builder.UserDTO
+2025/03/27 15:26:15 user update failed: unexpected result type, expected *builder.UserDTO
+2025/03/27 15:30:48 Running on port 8088
+2025/03/27 15:30:58 user updated successfully
+2025/03/27 15:48:11 Running on port 8088
+2025/03/27 15:48:22 Error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: mssql: UserId is required for get a user
+2025/03/27 15:48:22 user update failed: error executing stored procedure: error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: mssql: UserId is required for get a user
+2025/03/27 15:52:45 Error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: mssql: UserId is required for get a user
+2025/03/27 15:52:45 user update failed: error executing stored procedure: error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: mssql: UserId is required for get a user
+2025/03/27 16:01:22 Running on port 8088
+2025/03/27 16:01:34 Error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: mssql: UserId is required for get a user
+2025/03/27 16:01:34 user update failed: error executing stored procedure: error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: mssql: UserId is required for get a user
+2025/03/27 16:02:57 Running on port 8088
+2025/03/27 16:03:12 user updated successfully
+2025/03/27 16:29:10 Running on port 8088
+2025/03/27 16:29:26 unexpected result type, expected *[]*builder.UserDTO
+2025/03/27 16:29:26 user fetching failed unexpected result type, expected *[]*builder.UserDTO
+2025/03/27 16:30:40 Running on port 8088
+2025/03/27 16:31:01 unexpected result type, expected *[]*builder.UserDTO
+2025/03/27 16:31:01 user fetching failed unexpected result type, expected *[]*builder.UserDTO
+2025/03/27 16:36:44 Running on port 8088
+2025/03/27 16:36:54 unexpected result type, expected *[]*builder.UserDTO
+2025/03/27 16:36:54 user fetching failed unexpected result type, expected *[]*builder.UserDTO
+2025/03/27 16:38:39 Running on port 8088
+2025/03/27 16:38:52 unexpected result type, expected *[]builder.UserDTO
+2025/03/27 16:38:52 user fetching failed unexpected result type, expected *[]builder.UserDTO
+2025/03/27 16:40:07 Running on port 8088
+2025/03/27 16:40:17 unexpected result type, expected *[]builder.UserDTO
+2025/03/27 16:40:17 user fetching failed unexpected result type, expected *[]builder.UserDTO
+2025/03/27 16:40:57 Running on port 8088
+2025/03/27 16:41:06 user fetched successfully
+2025/03/27 16:42:42 Running on port 8088
+2025/03/27 16:43:59 Running on port 8088
+2025/03/27 16:44:10 unexpected result type, expected *[]builder.UserDTO
+2025/03/27 16:44:10 user fetching failed unexpected result type, expected *[]builder.UserDTO
+2025/03/27 16:44:55 Running on port 8088
+2025/03/27 16:45:03 user fetched successfully
+2025/03/27 16:51:09 Running on port 8088
+2025/03/27 16:51:16 unexpected result type, expected []builder.UserDTO
+2025/03/27 16:51:16 user fetching failed unexpected result type, expected []builder.UserDTO
+2025/03/27 16:51:45 Running on port 8088
+2025/03/27 16:52:29 Running on port 8088
+2025/03/27 16:52:53 unexpected result type, expected []builder.UserDTO
+2025/03/27 16:52:53 user fetching failed unexpected result type, expected []builder.UserDTO
+2025/03/27 16:53:00 unexpected result type, expected []builder.UserDTO
+2025/03/27 16:53:00 user fetching failed unexpected result type, expected []builder.UserDTO
+2025/03/27 16:54:48 Running on port 8088
+2025/03/27 16:54:55 user fetched successfully
+2025/03/27 16:58:43 user updated successfully
+2025/03/27 16:59:54 user fetched successfully
+2025/03/27 17:07:57 Running on port 8088
+2025/03/27 17:08:10 user fetched successfully
+2025/03/27 17:08:26 user updated successfully
+2025/03/27 18:27:22 Running on port 8088
+2025/03/27 18:30:07 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/27 18:30:07 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/27 18:30:30 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: sql: Scan error on column index 0, name "Message": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/27 18:30:30 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: sql: Scan error on column index 0, name "Message": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/27 18:51:55 Running on port 8088
+2025/03/27 18:52:04 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/27 18:52:04 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/27 18:52:15 unexpected result type, expected *builder.UserDTO
+2025/03/27 18:52:15 user insertion failed unexpected result type, expected *builder.UserDTO
+2025/03/27 18:54:01 Running on port 8088
+2025/03/27 18:54:10 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/27 18:54:10 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/27 18:54:17 user created successfully
+2025/03/27 19:10:47 Running on port 8088
+2025/03/27 19:11:02 user created successfully
+2025/03/27 19:17:45 Running on port 8088
+2025/03/27 19:23:28 user updated successfully
+2025/03/27 19:31:38 Running on port 8088
+2025/03/27 19:31:48 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/27 19:31:48 user login failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/27 19:33:54 user updated successfully
+2025/03/27 19:34:07 Error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password
+2025/03/27 19:34:07 user login failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_UserLogin @UserJSON = ?: mssql: Invalid password

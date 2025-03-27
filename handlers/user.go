@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	// "net/http"
 
@@ -27,8 +28,10 @@ func NewUserHandler (userManager managers.UserManager) *UserHandler {
 func (handler *UserHandler) RegisterApis(r *gin.Engine) {
 	userGroup := r.Group(handler.groupName);
 	userGroup.GET("/list", handler.UserList);
+	userGroup.GET("/:userId", handler.GetAUser)
 	userGroup.POST("/create", handler.InsertUser);
 	userGroup.POST("/login", handler.Login)
+	userGroup.PUT("/update/:userId", handler.UpdateUser)
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
@@ -74,6 +77,53 @@ func (handler *UserHandler) UserList(ctx *gin.Context) {
 
 }
 
+func (handler *UserHandler) GetAUser(ctx *gin.Context) {
+    // Create a new user object
+    userData := common.NewUserOb()
+
+    // Bind the request body to the userData object
+    // err := ctx.BindJSON(&userData)
+    // if err != nil {
+    //     log.Println("binding user details from JSON failed:", err)
+    //     common.SendError(ctx, http.StatusBadRequest, err)
+    //     return
+    // }
+
+    // Extract the user ID from the URL parameters
+    userIdStr, ok := ctx.Params.Get("userId")
+    if !ok {
+        log.Println("user ID is missing in the request")
+        common.SendError(ctx, http.StatusBadRequest, fmt.Errorf("user ID is required"))
+        return
+    }
+
+	// Convert string userId to uint
+    userId, err := strconv.ParseUint(userIdStr, 10, 32)
+    if err != nil {
+        log.Println("invalid user ID format:", err)
+        common.SendError(ctx, http.StatusBadRequest, fmt.Errorf("invalid user ID format"))
+        return
+    }
+
+
+
+    // Assign the user ID to the userData object
+    userData.UserID = uint(userId)
+
+    // Call the update method in the user manager
+    user, err := handler.userManager.GetAUser(userData)
+
+    if err != nil {
+        log.Println("user update failed:", err)
+        common.SendError(ctx, http.StatusInternalServerError, err)
+        return
+    }
+
+    // Send success response
+    common.SendSuccess(ctx, http.StatusOK, user)
+    log.Println("user updated successfully")
+}
+
 func (handler *UserHandler) InsertUser(ctx *gin.Context) {
 	userData := common.NewUserOb()
 
@@ -98,5 +148,50 @@ func (handler *UserHandler) InsertUser(ctx *gin.Context) {
 
 	common.SendSuccess(ctx, http.StatusOK, newUser)
 	log.Println("user created successfully")
+}
+
+func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
+    // Create a new user object
+    userData := common.NewUserOb()
+
+    // Bind the request body to the userData object
+    err := ctx.BindJSON(&userData)
+    if err != nil {
+        log.Println("binding user details from JSON failed:", err)
+        common.SendError(ctx, http.StatusBadRequest, err)
+        return
+    }
+
+    // Extract the user ID from the URL parameters
+    userIdStr, ok := ctx.Params.Get("userId")
+    if !ok {
+        log.Println("user ID is missing in the request")
+        common.SendError(ctx, http.StatusBadRequest, fmt.Errorf("user ID is required"))
+        return
+    }
+
+	// Convert string userId to uint
+    userId, err := strconv.ParseUint(userIdStr, 10, 32)
+    if err != nil {
+        log.Println("invalid user ID format:", err)
+        common.SendError(ctx, http.StatusBadRequest, fmt.Errorf("invalid user ID format"))
+        return
+    }
+
+    // Assign the user ID to the userData object
+    userData.UserID = uint(userId)
+
+    // Call the update method in the user manager
+    updatedUser, err := handler.userManager.UpdateUser(userData)
+
+    if err != nil {
+        log.Println("user update failed:", err)
+        common.SendError(ctx, http.StatusInternalServerError, err)
+        return
+    }
+
+    // Send success response
+    common.SendSuccess(ctx, http.StatusOK, updatedUser)
+    log.Println("user updated successfully")
 }
 
