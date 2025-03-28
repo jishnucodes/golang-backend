@@ -1,0 +1,104 @@
+2025/03/28 10:37:29 Running on port 8088
+2025/03/28 10:38:06 user fetched successfully
+2025/03/28 10:41:23 Running on port 8088
+2025/03/28 10:41:32 unexpected result type, expected *[]builder.UserDTO
+2025/03/28 10:41:32 user fetching failed unexpected result type, expected *[]builder.UserDTO
+2025/03/28 10:43:38 Running on port 8088
+2025/03/28 10:43:47 user fetched successfully
+2025/03/28 10:46:10 Running on port 8088
+2025/03/28 10:46:19 user fetched successfully
+2025/03/28 10:46:30 user updated successfully
+2025/03/28 10:46:53 user updated successfully
+2025/03/28 10:47:04 user updated successfully
+2025/03/28 12:10:24 user fetched successfully
+2025/03/28 12:13:29 user updated successfully
+2025/03/28 12:15:23 Running on port 8088
+2025/03/28 12:15:37 user fetched successfully
+2025/03/28 12:17:02 user fetched successfully
+2025/03/28 12:20:49 user fetched successfully
+2025/03/28 12:23:19 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/28 12:23:19 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/28 12:43:51 user updated successfully
+2025/03/28 12:53:33 user loggined successfully
+2025/03/28 13:00:47 Error executing stored procedure EXEC sp_CMS_ListUsers: sql: Scan error on column index 0, name "JSON_F52E2B61-18A1-11d1-B105-00805F49916B": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 13:00:47 user fetching failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_ListUsers: sql: Scan error on column index 0, name "JSON_F52E2B61-18A1-11d1-B105-00805F49916B": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 13:07:03 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: The INSERT statement conflicted with the CHECK constraint "CK__Users__Gender__4AB81AF0". The conflict occurred in database "UBT_Clinic", table "ubtUser.CMS_Users", column 'Gender'.
+2025/03/28 13:07:03 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: The INSERT statement conflicted with the CHECK constraint "CK__Users__Gender__4AB81AF0". The conflict occurred in database "UBT_Clinic", table "ubtUser.CMS_Users", column 'Gender'.
+2025/03/28 13:07:28 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: The INSERT statement conflicted with the CHECK constraint "CK__Users__Role__4BAC3F29". The conflict occurred in database "UBT_Clinic", table "ubtUser.CMS_Users", column 'Role'.
+2025/03/28 13:07:28 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: The INSERT statement conflicted with the CHECK constraint "CK__Users__Role__4BAC3F29". The conflict occurred in database "UBT_Clinic", table "ubtUser.CMS_Users", column 'Role'.
+2025/03/28 13:07:46 user created successfully
+2025/03/28 13:11:59 user created successfully
+2025/03/28 13:13:46 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Invalid object name 'dual'.
+2025/03/28 13:13:46 user insertion failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Invalid object name 'dual'.
+2025/03/28 13:29:57 user created successfully
+2025/03/28 13:42:06 user created successfully
+2025/03/28 13:56:12 Error executing stored procedure EXEC sp_CMS_ListUsers: sql: Scan error on column index 0, name "JsonResult": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 13:56:12 user fetching failed error executing stored procedure: error executing stored procedure EXEC sp_CMS_ListUsers: sql: Scan error on column index 0, name "JsonResult": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 13:57:07 Running on port 8088
+2025/03/28 13:57:15 unexpected result type, expected *[]builder.UserDTO
+2025/03/28 13:57:15 user fetching failed unexpected result type, expected *[]builder.UserDTO
+2025/03/28 13:58:28 Running on port 8088
+2025/03/28 13:58:34 user fetched successfully
+2025/03/28 13:59:00 user fetched successfully
+2025/03/28 14:00:24 user fetched successfully
+2025/03/28 14:04:42 Running on port 8088
+2025/03/28 14:04:51 user fetching failed failed to parse JSON response: json: cannot unmarshal array into Go value of type map[string]interface {}
+2025/03/28 14:05:52 Running on port 8088
+2025/03/28 14:06:00 user fetching failed failed to parse JSON response: json: cannot unmarshal array into Go value of type map[string]interface {}
+2025/03/28 14:08:06 Running on port 8088
+2025/03/28 14:08:16 user fetched successfully
+2025/03/28 15:24:50 Running on port 8088
+2025/03/28 15:25:03 user fetched successfully
+2025/03/28 15:32:41 Running on port 8088
+2025/03/28 15:33:38 Running on port 8088
+2025/03/28 15:35:48 Running on port 8088
+2025/03/28 15:35:57 user fetched successfully
+2025/03/28 15:42:00 Running on port 8088
+2025/03/28 15:42:11 user fetched successfully
+2025/03/28 15:44:15 Running on port 8088
+2025/03/28 15:44:24 user fetched successfully
+2025/03/28 15:46:06 Running on port 8088
+2025/03/28 15:47:47 Running on port 8088
+2025/03/28 15:47:55 user fetched successfully
+2025/03/28 15:51:11 Running on port 8088
+2025/03/28 15:51:36 user fetched successfully
+2025/03/28 15:53:47 Running on port 8088
+2025/03/28 15:53:55 user fetched successfully
+2025/03/28 16:03:31 Running on port 8088
+2025/03/28 16:03:40 user fetched successfully
+2025/03/28 16:04:46 Running on port 8088
+2025/03/28 16:04:56 user fetched successfully
+2025/03/28 16:06:13 Running on port 8088
+2025/03/28 16:06:22 user fetched successfully
+2025/03/28 16:14:39 user fetched successfully
+2025/03/28 16:15:09 Running on port 8088
+2025/03/28 16:15:19 user fetched successfully
+2025/03/28 16:40:35 Running on port 8088
+2025/03/28 16:42:21 Running on port 8088
+2025/03/28 16:43:53 Running on port 8088
+2025/03/28 16:47:30 Running on port 8088
+2025/03/28 16:47:39 user fetched successfully
+2025/03/28 17:01:03 Running on port 8088
+2025/03/28 17:01:11 Error executing stored procedure EXEC sp_CMS_ListUsers: sql: Scan error on column index 0, name "JsonResult": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 17:04:07 Running on port 8088
+2025/03/28 17:04:17 user fetched successfully
+2025/03/28 17:04:42 user updated successfully
+2025/03/28 17:21:38 Error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: sql: Scan error on column index 0, name "JsonResult": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 17:21:38 user update failed: error executing stored procedure: error executing stored procedure EXEC sp_CMS_GetAUser @UserJSON = ?: sql: Scan error on column index 0, name "JsonResult": unsupported Scan, storing driver.Value type string into type *builder.UserDTO
+2025/03/28 17:26:33 Running on port 8088
+2025/03/28 17:26:45 user updated successfully
+2025/03/28 17:27:38 user fetched successfully
+2025/03/28 17:27:52 user updated successfully
+2025/03/28 17:30:38 user fetched successfully
+2025/03/28 17:42:28 Running on port 8088
+2025/03/28 17:42:37 user fetched successfully
+2025/03/28 17:43:58 user updated successfully
+2025/03/28 18:15:23 Running on port 8088
+2025/03/28 18:16:19 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/28 18:17:45 Error executing stored procedure EXEC sp_CMS_InsertUser @UserJSON = ?: mssql: Email is already existing
+2025/03/28 18:19:18 Running on port 8088
+2025/03/28 18:19:37 user insertion failed failed to parse nested JSON data: json: cannot unmarshal number into Go value of type []map[string]interface {}
+2025/03/28 18:26:08 Running on port 8088
+2025/03/28 18:26:23 user insertion failed failed to parse nested JSON data: json: cannot unmarshal number into Go value of type []map[string]interface {}
+2025/03/28 18:36:04 Running on port 8088
+2025/03/28 18:38:04 Running on port 8088

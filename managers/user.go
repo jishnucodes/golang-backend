@@ -21,6 +21,7 @@ type UserManager interface {
 
 type returnData struct {
     Users  []builder.UserDTO  `json:"users,omitempty"`   // Slice for user records
+    Result []map[string]interface{}
     User    *builder.UserDTO   `json:"user,omitempty"` 
     Message string           `json:"message,omitempty"` // Message for string results
 }
@@ -85,7 +86,7 @@ func (um *userManager) GetUsers() (*returnData, error) {
     spExecutor := common.NewStoredProcedureExecutor()
 
     // Define a variable to hold the users (as a slice, not a pointer)
-    var users []builder.UserDTO
+    var users string
 
     // Execute the stored procedure and capture the result
     data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_ListUsers", nil, &users)
@@ -95,26 +96,46 @@ func (um *userManager) GetUsers() (*returnData, error) {
 
     // Print the result data and its type for debugging
     fmt.Println("data:", data)
-    fmt.Println("data type:", fmt.Sprintf("%T", data))  // Should print: *([]builder.UserDTO)
+    fmt.Println("data type:", fmt.Sprintf("%T", data)) 
 
-    // Type assertion to *[]builder.UserDTO
-    resultUser, ok := data.(*[]builder.UserDTO)
+    resultUser, ok := data.(*string)
     if !ok {
-        log.Println("unexpected result type, expected *[]builder.UserDTO")
-        return nil, fmt.Errorf("unexpected result type, expected *[]builder.UserDTO")
+        // Log and handle the error appropriately if the type assertion fails
+        log.Println("unexpected result type, expected *builder.UserDTO")
+        return nil, fmt.Errorf("unexpected result type, expected *builder.UserDTO")
     }
 
-    // Prepare the result object to return to the caller
-    result := &returnData{}
+    fmt.Println("Raw JSON:", *resultUser)
 
-    // Check if resultUser is not nil and contains data
-    if resultUser != nil && len(*resultUser) > 0 {
-        // Dereference the pointer before assigning
-        result.Users = *resultUser
-        result.Message = "Users fetched successfully"
-        result.User = nil
-    } else {
-        result.Message = "No users found"
+     // Parse the JSON string into a map or struct
+     // Step 1: Unmarshal the outer JSON array
+    var outerData []map[string]interface{}
+    err = json.Unmarshal([]byte(*resultUser), &outerData)
+    if err != nil {
+        return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+    }
+
+    if len(outerData) == 0 {
+        return &returnData{Message: "No data returned"}, nil
+    }
+
+    // Extract the nested JSON string from the "data" field
+    nestedDataStr, ok := outerData[0]["data"].(string)
+    if !ok {
+        return nil, fmt.Errorf("missing or invalid 'data' field in JSON")
+    }
+
+    // Step 2: Unmarshal the nested JSON string into a slice of users
+    var usersData []map[string]interface{}
+    err = json.Unmarshal([]byte(nestedDataStr), &usersData)
+    if err != nil {
+        return nil, fmt.Errorf("failed to parse nested JSON data: %w", err)
+    }
+
+    // Prepare the result object
+    result := &returnData{
+        Message: outerData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    usersData,                               // The actual user data
     }
 
     return result, nil
@@ -136,7 +157,7 @@ func (um *userManager) GetAUser(userData *common.UserObj) (*returnData, error) {
     // Create an instance of the stored procedure executor
     spExecutor := common.NewStoredProcedureExecutor()
 
-    var user builder.UserDTO
+    var user string
 
     // Execute the stored procedure with the user data
     data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_GetAUser @UserJSON = ?", []interface{}{string(userJSON)}, &user)
@@ -147,24 +168,44 @@ func (um *userManager) GetAUser(userData *common.UserObj) (*returnData, error) {
     fmt.Println("data:", data)
     fmt.Println("data type:", fmt.Sprintf("%T", data))  // Print the type of data
 
-    // Type assert the data returned by ExecuteStoredProcedure
-    resultUser, ok := data.(*builder.UserDTO)
+    resultUser, ok := data.(*string)
     if !ok {
         // Log and handle the error appropriately if the type assertion fails
         log.Println("unexpected result type, expected *builder.UserDTO")
         return nil, fmt.Errorf("unexpected result type, expected *builder.UserDTO")
     }
 
-    
+    fmt.Println("Raw JSON:", *resultUser)
 
-    // Prepare the result object to return to the caller
-    result := &returnData{}
-    if resultUser != nil {
-        result.User = resultUser
-        result.Message = "success"
-    } else {
-        // Handle the case where no user data is returned
-        result.Message = "No user found with the provided details"
+     // Parse the JSON string into a map or struct
+     // Step 1: Unmarshal the outer JSON array
+    var outerData []map[string]interface{}
+    err = json.Unmarshal([]byte(*resultUser), &outerData)
+    if err != nil {
+        return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+    }
+
+    if len(outerData) == 0 {
+        return &returnData{Message: "No data returned"}, nil
+    }
+
+    // Extract the nested JSON string from the "data" field
+    nestedDataStr, ok := outerData[0]["data"].(string)
+    if !ok {
+        return nil, fmt.Errorf("missing or invalid 'data' field in JSON")
+    }
+
+    // Step 2: Unmarshal the nested JSON string into a slice of users
+    var usersData []map[string]interface{}
+    err = json.Unmarshal([]byte(nestedDataStr), &usersData)
+    if err != nil {
+        return nil, fmt.Errorf("failed to parse nested JSON data: %w", err)
+    }
+
+    // Prepare the result object
+    result := &returnData{
+        Message: outerData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    usersData,                               // The actual user data
     }
 
     return result, nil
@@ -184,37 +225,83 @@ func (um *userManager) CreateUser(userData *common.UserObj) (*returnData, error)
     // Create an instance of the stored procedure executor
     spExecutor := common.NewStoredProcedureExecutor()
 
-	var user string
+    var user string
 
     // Execute the stored procedure with the user data
     data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_InsertUser @UserJSON = ?", []interface{}{string(userJSON)}, &user)
     if err != nil {
-
         return nil, fmt.Errorf("error executing stored procedure: %w", err)
     }
 
     fmt.Println("data:", data)
-    fmt.Println("data type:", fmt.Sprintf("%T", data))  // Print the type of data
+    fmt.Println("data type:", fmt.Sprintf("%T", data)) // Print the type of data
 
-    // Type assert the data returned by ExecuteStoredProcedure
-    resultUser, ok := data.(*string)
-    if !ok {
-        // Log and handle the error appropriately if the type assertion fails
-        log.Println("unexpected result type, expected *builder.UserDTO")
-        return nil, fmt.Errorf("unexpected result type, expected *builder.UserDTO")
+    // Handle the case when the result is a string (as in some simple responses)
+    if resultUser, ok := data.(*string); ok {
+        fmt.Println("Raw JSON:", *resultUser)
+
+        // Step 1: Unmarshal the outer JSON array
+        var outerData []map[string]interface{}
+        err = json.Unmarshal([]byte(*resultUser), &outerData)
+        if err != nil {
+            return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+        }
+
+        if len(outerData) == 0 {
+            return &returnData{Message: "No data returned"}, nil
+        }
+
+        // Extract the relevant fields from the response (data, status, etc.)
+        dataField, ok := outerData[0]["data"].(interface{})
+        if !ok {
+            return nil, fmt.Errorf("missing or invalid 'data' field in JSON")
+        }
+
+        // Check if data is a string or a number and handle accordingly
+        var dataValue string
+        switch v := dataField.(type) {
+        case string:
+            dataValue = v
+        case float64:
+            dataValue = fmt.Sprintf("%f", v) // Convert number to string
+        default:
+            return nil, fmt.Errorf("unexpected data type: %T", v)
+        }
+
+        statusMessage, _ := outerData[0]["statusMessage"].(string)
+        status, _ := outerData[0]["status"].(float64) // float64 because JSON numbers are unmarshalled as float64
+        statusCode, _ := outerData[0]["statusCode"].(string)
+
+        // Prepare the result object
+        result := &returnData{
+            Message: statusMessage, // Use status message from the outer JSON
+            Result: []map[string]interface{}{  // <-- This is a slice containing a map
+                {
+                    "data":       dataValue,
+                    "status":     status,
+                    "statusCode": statusCode,
+                },
+            },
+        }
+
+        // Return result
+        return result, nil
     }
 
-    // Prepare the result object
-    result := &returnData{}
-    if resultUser != nil && *resultUser != ""{
-        result.Message = *resultUser
-    } else {
-        // Handle the case where no user data is returned
-        result.Message = "user creation failed"
+    // Handle the case where the result is a simple string (e.g., user ID or status message)
+    if resultStr, ok := data.(*string); ok {
+        fmt.Println("Simple result:", *resultStr)
+
+        // In case the result is just a status message or ID, we can return it as such
+        return &returnData{
+            Message: *resultStr,
+        }, nil
     }
 
-    return result, nil
+    // Handle the case when the result type is neither a string nor a structured object
+    return nil, fmt.Errorf("unexpected result type, expected *string or a structured response")
 }
+
 
 func (um *userManager) UpdateUser(userData *common.UserObj) (*returnData, error) {
     // Convert input to DTO
