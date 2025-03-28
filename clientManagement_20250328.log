@@ -102,3 +102,4 @@
 2025/03/28 18:26:23 user insertion failed failed to parse nested JSON data: json: cannot unmarshal number into Go value of type []map[string]interface {}
 2025/03/28 18:36:04 Running on port 8088
 2025/03/28 18:38:04 Running on port 8088
+2025/03/28 18:38:34 user created successfully
