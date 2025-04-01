@@ -69,12 +69,18 @@ func (um *userManager) Login(userData *common.UserObj) (*returnData, error) {
     }
 
     // Prepare the result object
-    result := &returnData{}
-    if resultUser != nil && *resultUser != ""{
-        result.Message = *resultUser
-    } else {
-        // Handle the case where no user data is returned
-        result.Message = "user login failed"
+    fmt.Println("Raw JSON:", *resultUser)
+
+    parsedData, err := common.ParseJSONResponse(resultUser)
+    if err != nil {
+		fmt.Println("Error:", err)
+		return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+	}
+
+    // Prepare the result object
+    result := &returnData{
+        Message: parsedData.OuterData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    parsedData.UserData,                               // The actual user data
     }
 
     return result, nil
@@ -107,35 +113,16 @@ func (um *userManager) GetUsers() (*returnData, error) {
 
     fmt.Println("Raw JSON:", *resultUser)
 
-     // Parse the JSON string into a map or struct
-     // Step 1: Unmarshal the outer JSON array
-    var outerData []map[string]interface{}
-    err = json.Unmarshal([]byte(*resultUser), &outerData)
+    parsedData, err := common.ParseJSONResponse(resultUser)
     if err != nil {
-        return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
-    }
-
-    if len(outerData) == 0 {
-        return &returnData{Message: "No data returned"}, nil
-    }
-
-    // Extract the nested JSON string from the "data" field
-    nestedDataStr, ok := outerData[0]["data"].(string)
-    if !ok {
-        return nil, fmt.Errorf("missing or invalid 'data' field in JSON")
-    }
-
-    // Step 2: Unmarshal the nested JSON string into a slice of users
-    var usersData []map[string]interface{}
-    err = json.Unmarshal([]byte(nestedDataStr), &usersData)
-    if err != nil {
-        return nil, fmt.Errorf("failed to parse nested JSON data: %w", err)
-    }
+		fmt.Println("Error:", err)
+		return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+	}
 
     // Prepare the result object
     result := &returnData{
-        Message: outerData[0]["statusMessage"].(string),  // Use status message from the outer JSON
-        Result:    usersData,                               // The actual user data
+        Message: parsedData.OuterData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    parsedData.UserData,                               // The actual user data
     }
 
     return result, nil
@@ -177,35 +164,16 @@ func (um *userManager) GetAUser(userData *common.UserObj) (*returnData, error) {
 
     fmt.Println("Raw JSON:", *resultUser)
 
-     // Parse the JSON string into a map or struct
-     // Step 1: Unmarshal the outer JSON array
-    var outerData []map[string]interface{}
-    err = json.Unmarshal([]byte(*resultUser), &outerData)
+    parsedData, err := common.ParseJSONResponse(resultUser)
     if err != nil {
-        return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
-    }
-
-    if len(outerData) == 0 {
-        return &returnData{Message: "No data returned"}, nil
-    }
-
-    // Extract the nested JSON string from the "data" field
-    nestedDataStr, ok := outerData[0]["data"].(string)
-    if !ok {
-        return nil, fmt.Errorf("missing or invalid 'data' field in JSON")
-    }
-
-    // Step 2: Unmarshal the nested JSON string into a slice of users
-    var usersData []map[string]interface{}
-    err = json.Unmarshal([]byte(nestedDataStr), &usersData)
-    if err != nil {
-        return nil, fmt.Errorf("failed to parse nested JSON data: %w", err)
-    }
+		fmt.Println("Error:", err)
+		return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+	}
 
     // Prepare the result object
     result := &returnData{
-        Message: outerData[0]["statusMessage"].(string),  // Use status message from the outer JSON
-        Result:    usersData,                               // The actual user data
+        Message: parsedData.OuterData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    parsedData.UserData,                               // The actual user data
     }
 
     return result, nil
@@ -236,70 +204,30 @@ func (um *userManager) CreateUser(userData *common.UserObj) (*returnData, error)
     fmt.Println("data:", data)
     fmt.Println("data type:", fmt.Sprintf("%T", data)) // Print the type of data
 
-    // Handle the case when the result is a string (as in some simple responses)
-    if resultUser, ok := data.(*string); ok {
-        fmt.Println("Raw JSON:", *resultUser)
+    
 
-        // Step 1: Unmarshal the outer JSON array
-        var outerData []map[string]interface{}
-        err = json.Unmarshal([]byte(*resultUser), &outerData)
-        if err != nil {
-            return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
-        }
-
-        if len(outerData) == 0 {
-            return &returnData{Message: "No data returned"}, nil
-        }
-
-        // Extract the relevant fields from the response (data, status, etc.)
-        dataField, ok := outerData[0]["data"].(interface{})
-        if !ok {
-            return nil, fmt.Errorf("missing or invalid 'data' field in JSON")
-        }
-
-        // Check if data is a string or a number and handle accordingly
-        var dataValue string
-        switch v := dataField.(type) {
-        case string:
-            dataValue = v
-        case float64:
-            dataValue = fmt.Sprintf("%f", v) // Convert number to string
-        default:
-            return nil, fmt.Errorf("unexpected data type: %T", v)
-        }
-
-        statusMessage, _ := outerData[0]["statusMessage"].(string)
-        status, _ := outerData[0]["status"].(float64) // float64 because JSON numbers are unmarshalled as float64
-        statusCode, _ := outerData[0]["statusCode"].(string)
-
-        // Prepare the result object
-        result := &returnData{
-            Message: statusMessage, // Use status message from the outer JSON
-            Result: []map[string]interface{}{  // <-- This is a slice containing a map
-                {
-                    "data":       dataValue,
-                    "status":     status,
-                    "statusCode": statusCode,
-                },
-            },
-        }
-
-        // Return result
-        return result, nil
+    resultUser, ok := data.(*string)
+    if !ok {
+        // Log and handle the error appropriately if the type assertion fails
+        log.Println("unexpected result type, expected *builder.UserDTO")
+        return nil, fmt.Errorf("unexpected result type, expected *builder.UserDTO")
     }
 
-    // Handle the case where the result is a simple string (e.g., user ID or status message)
-    if resultStr, ok := data.(*string); ok {
-        fmt.Println("Simple result:", *resultStr)
+    fmt.Println("Raw JSON:", *resultUser)
 
-        // In case the result is just a status message or ID, we can return it as such
-        return &returnData{
-            Message: *resultStr,
-        }, nil
+    parsedData, err := common.ParseJSONResponse(resultUser)
+    if err != nil {
+		fmt.Println("Error:", err)
+		return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+	}
+
+    // Prepare the result object
+    result := &returnData{
+        Message: parsedData.OuterData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    parsedData.UserData,                               // The actual user data
     }
 
-    // Handle the case when the result type is neither a string nor a structured object
-    return nil, fmt.Errorf("unexpected result type, expected *string or a structured response")
+    return result, nil
 }
 
 
@@ -336,13 +264,16 @@ func (um *userManager) UpdateUser(userData *common.UserObj) (*returnData, error)
         return nil, fmt.Errorf("unexpected result type, expected *builder.UserDTO")
     }
 
+    parsedData, err := common.ParseJSONResponse(resultUser)
+    if err != nil {
+		fmt.Println("Error:", err)
+		return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
+	}
+
     // Prepare the result object
-    result := &returnData{}
-    if resultUser != nil && *resultUser != ""{
-        result.Message = *resultUser
-    } else {
-        // Handle the case where no user data is returned
-        result.Message = "user creation failed"
+    result := &returnData{
+        Message: parsedData.OuterData[0]["statusMessage"].(string),  // Use status message from the outer JSON
+        Result:    parsedData.UserData,                               // The actual user data
     }
 
     return result, nil
