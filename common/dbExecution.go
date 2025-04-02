@@ -2,6 +2,7 @@ package common
 
 import (
 	"clinic-management/backend/database"
+	"clinic-management/backend/result"
 	"fmt"
 	"log"
 )
@@ -64,21 +65,47 @@ func NewStoredProcedureExecutor() *storedProcedureExecutor {
 // }
 
 
-func (sp *storedProcedureExecutor) ExecuteStoredProcedure(spName string, params []interface{}, result interface{}) (interface{}, error) {
-    // Use GORM Raw to execute the stored procedure and map the result
-    query := database.DB.Raw(spName, params...)
 
-    fmt.Println("query", query)
+
+// func (sp *storedProcedureExecutor) ExecuteStoredProcedure(spName string, params []interface{}, result *result.Result) (interface{}, error) {
+//     // Use GORM Raw to execute the stored procedure and map the result
+//     query := database.DB.Raw(spName, params...)
+
+//     fmt.Println("query", query)
     
-    // Execute the query and map the result to the 'result' variable
-    if err := query.Find(result).Error; err != nil {
+//     // Execute the query and map the result to the 'result' variable
+//     if err := query.Find(&result).Error; err != nil {
+//         log.Printf("Error executing stored procedure %s: %v\n", spName, err)
+//         return nil, fmt.Errorf("error executing stored procedure %s: %w", spName, err)
+//     }
+
+//     // Return the result data
+//     return result, nil
+// }
+
+func (sp *storedProcedureExecutor) ExecuteStoredProcedure(spName string, params []interface{}) (*result.Result, error) {
+    var response result.Result
+
+    rows, err := database.DB.Raw(spName, params...).Rows()
+    if err != nil {
         log.Printf("Error executing stored procedure %s: %v\n", spName, err)
         return nil, fmt.Errorf("error executing stored procedure %s: %w", spName, err)
     }
+    defer rows.Close()
 
-    // Return the result data
-    return result, nil
+    // Manually scan values
+    for rows.Next() {
+        if err := rows.Scan(&response.Data, &response.Status, &response.StatusCode, &response.StatusMessage); err != nil {
+            log.Println("Error scanning row:", err)
+            return nil, err
+        }
+    }
+
+    return &response, nil
 }
+
+
+
 
 // func (sp *storedProcedureExecutor) ExecuteStoredProcedure(spName string, params []interface{}, result interface{}) ([]map[string]interface{}, error) {
 // 	// Step 1: Execute the stored procedure

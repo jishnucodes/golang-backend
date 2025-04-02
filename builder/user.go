@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+
+
 // UserDTO represents the structure of the user data.
 type UserDTO struct {
 	UserID        uint      `json:"userId"`
