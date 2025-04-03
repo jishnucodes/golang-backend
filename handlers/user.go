@@ -37,6 +37,7 @@ func (handler *UserHandler) RegisterApis(r *gin.Engine) {
 	userGroup.POST("/create", handler.InsertUser)
 	userGroup.POST("/login", handler.Login)
 	userGroup.PUT("/update/:userId", handler.UpdateUser)
+	userGroup.DELETE("/delete/:userId", handler.DeleteAUser)
 }
 
 
@@ -94,7 +95,6 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
 
     log.Println("user logged in successfully")
 }
-
 
 func (handler *UserHandler) UserList(ctx *gin.Context) {
 
@@ -321,4 +321,70 @@ func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
 	// Send success response
 	common.SendSuccess(ctx, http.StatusOK, userManagerResponse.Status, userManagerResponse.StatusMessage, response)
 	log.Println("user updated successfully")
+}
+
+func (handler *UserHandler) DeleteAUser(ctx *gin.Context) {
+	// Create a new user object
+	userData := common.NewUserOb()
+
+	// Extract the user ID from the URL parameters
+	userIdStr, ok := ctx.Params.Get("userId")
+	if !ok {
+		log.Println("user ID is missing in the request")
+		common.SendError(ctx, http.StatusBadRequest, 0,"", fmt.Errorf("user ID is required"))
+		return
+	}
+
+	// Convert string userId to uint
+	userId, err := strconv.ParseUint(userIdStr, 10, 32)
+	if err != nil {
+		log.Println("invalid user ID format:", err)
+		common.SendError(ctx, http.StatusBadRequest,0, "invalid user ID format", fmt.Errorf("invalid user ID format"))
+		return
+	}
+
+	// Assign the user ID to the userData object
+	userData.UserID = uint(userId)
+
+	// Call the get a user method in the user manager
+	userManagerResponse, err := handler.userManager.DeleteAUser(userData)
+	//this error block will work when the store procedure catch block catches an error
+	if err != nil {
+		log.Println("user delete failed:", err)
+		common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
+		return
+	}
+
+	fmt.Printf("user.Data type: %T\n", userManagerResponse.Data)
+	fmt.Println("user.Data content:", userManagerResponse.Data)
+
+	// users.Data is a string, so directly unmarshal
+	var parsedData []map[string]interface{}
+	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data)) {
+
+		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
+		if unmarshalError != nil {
+			log.Println("Failed to parse user data:", unmarshalError)
+			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
+			return
+		}
+	}else if userManagerResponse.Status == 0  {
+		common.SendError(
+			ctx, 
+			http.StatusInternalServerError, 
+			userManagerResponse.Status, 
+			userManagerResponse.StatusMessage, 
+			fmt.Errorf(userManagerResponse.StatusMessage),
+		)
+		log.Printf("Deleting user of ID %d failed: %s", userId, userManagerResponse.StatusMessage)
+		return
+	}
+
+	fmt.Printf("Parsed data type: %T\n", parsedData)
+
+	response := builder.BuildUserDTOs(parsedData)
+	
+	// Send success response
+	common.SendSuccess(ctx, http.StatusOK, userManagerResponse.Status, userManagerResponse.StatusMessage, response)
+	log.Println("user deleted successfully")
 }

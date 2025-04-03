@@ -24,3 +24,20 @@
 2025/04/03 11:34:44 user fetched successfully
 2025/04/03 11:34:57 users fetched successfully
 2025/04/03 11:35:30 user login failed: Invalid password
+2025/04/03 15:07:18 Running on port 8088
+2025/04/03 15:11:20 users fetched successfully
+2025/04/03 15:16:33 user created successfully
+2025/04/03 15:17:21 Creating a user failed: Email is already existing
+2025/04/03 15:23:45 user updated successfully
+2025/04/03 15:24:01 Updating a user of ID 35 failed: User is not found
+2025/04/03 15:24:35 user updated successfully
+2025/04/03 15:24:58 user updated successfully
+2025/04/03 15:25:19 Updating a user of ID 32 failed: Email already exists for another user
+2025/04/03 15:25:43 user updated successfully
+2025/04/03 15:27:05 user logged in successfully
+2025/04/03 15:27:28 user login failed: Invalid password
+2025/04/03 15:27:35 user logged in successfully
+2025/04/03 16:35:10 Running on port 8088
+2025/04/03 16:36:09 Fetching user of ID 30 failed: User deleted successfully
+2025/04/03 16:37:49 Running on port 8088
+2025/04/03 16:38:05 user fetched successfully
