@@ -47,45 +47,25 @@ func (handler *UserHandler) Login(ctx *gin.Context) {
     userData := common.NewUserOb()
 
     // Bind the incoming JSON to the userData object
-    err := ctx.BindJSON(&userData)
-    if err != nil {
-        log.Println("binding user details from json is failed:", err)
-        common.SendError(ctx, http.StatusBadRequest, 0, "binding user details from json is failed", err)
-        return
-    }
-
+    if err := common.BindJSONAndValidate(ctx, &userData); err != nil {
+		return // Error response is already handled in BindJSONAndValidate
+	}
+	
     // Call the Login method and get the result
     userManagerResponse, err := handler.userManager.Login(userData)
 
 	// If there was an error from the login function, this error block will work when the store procedure catch block catches an error
-    if err != nil {
-        log.Println("user login failed", err)
-        common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
-        return
-    }
+    if common.HandleManagerError(ctx, userManagerResponse, err, "User login") {
+		return // Exit if an error occurred (response is already sent)
+	}
 
 	fmt.Println("Result", userManagerResponse)
 
-	var parsedData []map[string]interface{}
-	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data)) {
-
-		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
-		if unmarshalError != nil {
-			log.Println("Failed to parse user data:", unmarshalError)
-			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
-			return
-		}
-	}else {
-		common.SendError(
-			ctx, 
-			http.StatusUnauthorized, 
-			userManagerResponse.Status, 
-			userManagerResponse.StatusMessage, 
-			fmt.Errorf(userManagerResponse.StatusMessage),
-		)
-		log.Println("user login failed:", userManagerResponse.StatusMessage)
-		return
-	}
+	//Use ParseJSONResponse to parse the userManagerResponse data
+    parsedData, parseErr := common.ParseJSONResponse(userManagerResponse, ctx)
+    if parseErr != nil {
+        return // `ParseJSONResponse` already sends an error response, no need to send another one
+    }
 
     // If no error message exists, continue with building the response
     response := builder.BuildUserDTOs(parsedData)
@@ -100,10 +80,8 @@ func (handler *UserHandler) UserList(ctx *gin.Context) {
 
 	userManagerResponse, err := handler.userManager.GetUsers()
 	//this error block will work when the store procedure catch block catches an error
-	if err != nil {
-		log.Println("user fetching failed", err)
-		common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
-		return
+	if common.HandleManagerError(ctx, userManagerResponse, err, "User fetching") {
+		return // Exit if an error occurred (response is already sent)
 	}
 
 	fmt.Printf("users.Data type: %T\n", userManagerResponse.Data)

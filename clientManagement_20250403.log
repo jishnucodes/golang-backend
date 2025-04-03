@@ -41,3 +41,22 @@
 2025/04/03 16:36:09 Fetching user of ID 30 failed: User deleted successfully
 2025/04/03 16:37:49 Running on port 8088
 2025/04/03 16:38:05 user fetched successfully
+2025/04/03 18:38:44 Running on port 8088
+2025/04/03 18:38:54 user login failed: Invalid password
+2025/04/03 18:47:39 binding user details from json is failed: invalid character '}' after object key
+2025/04/03 19:00:18 Running on port 8088
+2025/04/03 19:00:29 binding user details from json is failed: invalid character '}' after object key
+2025/04/03 19:00:39 user login failed: Invalid password
+2025/04/03 19:00:51 user logged in successfully
+2025/04/03 19:01:01 user login failed: Invalid password
+2025/04/03 19:26:44 Running on port 8088
+2025/04/03 19:26:56 User login failed: Invalid password
+2025/04/03 19:27:03 user logged in successfully
+2025/04/03 19:33:08 Running on port 8088
+2025/04/03 19:33:22 user logged in successfully
+2025/04/03 19:33:30 binding JSON failed: invalid character '}' after object key
+2025/04/03 19:59:27 Running on port 8088
+2025/04/03 19:59:41 binding JSON failed: invalid character '}' after object key
+2025/04/03 20:00:34 Running on port 8088
+2025/04/03 20:00:50 binding JSON failed: invalid character '}' after object key
+2025/04/03 20:03:54 Running on port 8088

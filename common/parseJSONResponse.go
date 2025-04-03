@@ -1,52 +1,49 @@
 package common
 
 import (
+	"clinic-management/backend/spResponse"
 	"encoding/json"
 	"fmt"
+	"log"
+	// "net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-// ParsedData holds both the outer and nested JSON data
-type ParsedData struct {
-	OuterData []map[string]interface{} `json:"outerData"`
-	UserData  []map[string]interface{} `json:"userData"`
-}
+// ParsedData struct (Define it properly)
+
 
 // ParseJSONResponse parses a JSON response and extracts data from the "data" field
-func ParseJSONResponse(jsonStr string) (*ParsedData, error) {
-	// Step 1: Unmarshal the outer JSON
-	var outerData []map[string]interface{}
-	err := json.Unmarshal([]byte(jsonStr), &outerData)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse outer JSON: %w", err)
-	}
+func ParseJSONResponse(managerResponse *spResponse.Result, ctx *gin.Context) ([]map[string]interface{}, error) {
+	var parsedData []map[string]interface{}
 
-	// Return early if there's no data
-	if len(outerData) == 0 {
-		return &ParsedData{OuterData: nil, UserData: nil}, nil
-	}
-
-	// Step 2: Extract the "data" field and check its type
-	rawData, exists := outerData[0]["data"]
-	if !exists {
-		return nil, fmt.Errorf("missing 'data' field in JSON")
-	}
-
-	// Step 3: Ensure "data" is an array of objects
-	userData, ok := rawData.([]interface{})
-	if !ok {
-		return nil, fmt.Errorf("invalid format for 'data' field")
-	}
-
-	// Convert userData to []map[string]interface{}
-	var userDataParsed []map[string]interface{}
-	for _, item := range userData {
-		if userMap, valid := item.(map[string]interface{}); valid {
-			userDataParsed = append(userDataParsed, userMap)
-		} else {
-			return nil, fmt.Errorf("invalid user data format")
+	// Check if Data is not empty and is valid JSON
+	if managerResponse.Data != "" && json.Valid([]byte(managerResponse.Data)) {
+		err := json.Unmarshal([]byte(managerResponse.Data), &parsedData)
+		if err != nil {
+			log.Println("Failed to parse user data:", err)
+			// SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", err)
+			if errors := HandleRequestError(ctx, err, "Failed to parse user data"); errors != nil {
+				return nil, errors // Exit if an error occurred (response is already sent)
+			}
+			
+			return nil, err
 		}
+		return parsedData, nil
 	}
 
-	// Return both parsed structures
-	return &ParsedData{OuterData: outerData, UserData: userDataParsed}, nil
+	// Handle invalid response
+	// SendError(
+	// 	ctx,
+	// 	http.StatusInternalServerError,
+	// 	managerResponse.Status,
+	// 	managerResponse.StatusMessage,
+	// 	fmt.Errorf(managerResponse.StatusMessage),
+	// )
+	if err := HandleHTTPError(ctx, managerResponse); err != nil {
+		return nil, err// Exit if an error occurred (response is already sent)
+	}
+	
+	
+	return nil, fmt.Errorf(managerResponse.StatusMessage)
 }
