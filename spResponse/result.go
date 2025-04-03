@@ -1,4 +1,4 @@
-package result
+package spResponse
 
 type Result struct {
 	Data string  `json:"data,omitempty"`

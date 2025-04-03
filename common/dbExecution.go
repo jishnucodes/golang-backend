@@ -2,7 +2,7 @@ package common
 
 import (
 	"clinic-management/backend/database"
-	"clinic-management/backend/result"
+	"clinic-management/backend/spResponse"
 	"fmt"
 	"log"
 )
@@ -83,8 +83,8 @@ func NewStoredProcedureExecutor() *storedProcedureExecutor {
 //     return result, nil
 // }
 
-func (sp *storedProcedureExecutor) ExecuteStoredProcedure(spName string, params []interface{}) (*result.Result, error) {
-    var response result.Result
+func (sp *storedProcedureExecutor) ExecuteStoredProcedure(spName string, params []interface{}) (*spResponse.Result, error) {
+    var response spResponse.Result
 
     rows, err := database.DB.Raw(spName, params...).Rows()
     if err != nil {

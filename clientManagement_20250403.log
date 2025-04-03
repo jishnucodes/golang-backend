@@ -1,0 +1,26 @@
+2025/04/03 10:01:45 Running on port 8088
+2025/04/03 10:02:00 user fetched successfully
+2025/04/03 10:36:41 Running on port 8088
+2025/04/03 10:37:05 binding user details from json is failed: invalid character '}' after object key
+2025/04/03 10:37:44 user logged in successfully
+2025/04/03 10:38:10 Error scanning row: sql: Scan error on column index 0, name "data": converting NULL to string is unsupported
+2025/04/03 10:38:10 user login failed error executing stored procedure: sql: Scan error on column index 0, name "data": converting NULL to string is unsupported
+2025/04/03 10:43:12 Failed to parse user data: unexpected end of JSON input
+2025/04/03 10:43:43 user logged in successfully
+2025/04/03 10:43:51 Failed to parse user data: unexpected end of JSON input
+2025/04/03 10:48:28 Running on port 8088
+2025/04/03 10:48:39 Received empty JSON response, defaulting to []
+2025/04/03 10:48:39 user logged in successfully
+2025/04/03 10:48:53 Received empty JSON response, defaulting to []
+2025/04/03 10:48:53 user logged in successfully
+2025/04/03 10:57:45 Running on port 8088
+2025/04/03 10:58:19 user logged in successfully
+2025/04/03 11:00:15 Running on port 8088
+2025/04/03 11:00:27 user login failed: Invalid password
+2025/04/03 11:33:58 Running on port 8088
+2025/04/03 11:34:09 user login failed: Invalid password
+2025/04/03 11:34:20 user login failed: User is not found
+2025/04/03 11:34:33 user logged in successfully
+2025/04/03 11:34:44 user fetched successfully
+2025/04/03 11:34:57 users fetched successfully
+2025/04/03 11:35:30 user login failed: Invalid password

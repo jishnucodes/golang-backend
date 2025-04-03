@@ -34,87 +34,109 @@ func (handler *UserHandler) RegisterApis(r *gin.Engine) {
 	userGroup := r.Group(handler.groupName)
 	userGroup.GET("/list", handler.UserList)
 	userGroup.GET("/:userId", handler.GetAUser)
-	// userGroup.POST("/create", handler.InsertUser)
-	// userGroup.POST("/login", handler.Login)
-	// userGroup.PUT("/update/:userId", handler.UpdateUser)
+	userGroup.POST("/create", handler.InsertUser)
+	userGroup.POST("/login", handler.Login)
+	userGroup.PUT("/update/:userId", handler.UpdateUser)
 }
 
 
 
 
-// func (handler *UserHandler) Login(ctx *gin.Context) {
-//     userData := common.NewUserOb()
+func (handler *UserHandler) Login(ctx *gin.Context) {
+    userData := common.NewUserOb()
 
-//     // Bind the incoming JSON to the userData object
-//     err := ctx.BindJSON(&userData)
-//     if err != nil {
-//         log.Println("binding user details from json is failed:", err)
-//         common.SendError(ctx, http.StatusBadRequest, "binding user details from json is failed", err)
-//         return
-//     }
+    // Bind the incoming JSON to the userData object
+    err := ctx.BindJSON(&userData)
+    if err != nil {
+        log.Println("binding user details from json is failed:", err)
+        common.SendError(ctx, http.StatusBadRequest, 0, "binding user details from json is failed", err)
+        return
+    }
 
-//     // Call the Login method and get the result
-//     result, err := handler.userManager.Login(userData)
+    // Call the Login method and get the result
+    userManagerResponse, err := handler.userManager.Login(userData)
 
-// 	fmt.Println("Result", result)
+	// If there was an error from the login function, this error block will work when the store procedure catch block catches an error
+    if err != nil {
+        log.Println("user login failed", err)
+        common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
+        return
+    }
 
-//     // Debug prints to check result types and values
-//     // fmt.Printf("Type of result.Result: %T\n", result.Result)
-//     // fmt.Printf("Value of result.Result: %#v\n", result.Result)
+	fmt.Println("Result", userManagerResponse)
 
-// 	//this is mainly used to handle the sql custom error messages
-// 	errors := errorHandlers.HandleErrorResponse(ctx, result.Result, err)
-//     if errors != nil {
-//         return 
-//     }
+	var parsedData []map[string]interface{}
+	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data)) {
 
-//     // If no error message exists, continue with building the response
-//     response := builder.BuildUserDTOs(result.Result)
-//     fmt.Println("response", result.Result)
-//     fmt.Println("error", err)
+		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
+		if unmarshalError != nil {
+			log.Println("Failed to parse user data:", unmarshalError)
+			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
+			return
+		}
+	}else {
+		common.SendError(
+			ctx, 
+			http.StatusUnauthorized, 
+			userManagerResponse.Status, 
+			userManagerResponse.StatusMessage, 
+			fmt.Errorf(userManagerResponse.StatusMessage),
+		)
+		log.Println("user login failed:", userManagerResponse.StatusMessage)
+		return
+	}
 
-//     // If there was an error from the login function
-//     if err != nil {
-//         log.Println("user login failed", err)
-//         common.SendError(ctx, http.StatusInternalServerError, result.Message, err)
-//         return
-//     }
+    // If no error message exists, continue with building the response
+    response := builder.BuildUserDTOs(parsedData)
+    
+    // If everything is fine, send success response
+	common.SendSuccess(ctx, http.StatusOK, userManagerResponse.Status, userManagerResponse.StatusMessage, response)
 
-//     // If everything is fine, send success response
-//     common.SendSuccess(ctx, http.StatusOK, result.Message, response)
-//     log.Println("user logged in successfully")
-// }
+    log.Println("user logged in successfully")
+}
 
 
 func (handler *UserHandler) UserList(ctx *gin.Context) {
 
-	users, err := handler.userManager.GetUsers()
-
+	userManagerResponse, err := handler.userManager.GetUsers()
+	//this error block will work when the store procedure catch block catches an error
 	if err != nil {
 		log.Println("user fetching failed", err)
-		common.SendError(ctx, http.StatusInternalServerError, 0, users.StatusMessage, err)
+		common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
 		return
 	}
 
-	fmt.Printf("users.Data type: %T\n", users.Data)
-	fmt.Println("users.Data content:", users.Data)
+	fmt.Printf("users.Data type: %T\n", userManagerResponse.Data)
+	fmt.Println("users.Data content:", userManagerResponse.Data)
 
 	// users.Data is a string, so directly unmarshal
 	var parsedData []map[string]interface{}
-	unmarshalError := json.Unmarshal([]byte(users.Data), &parsedData)
-	if unmarshalError != nil {
-		log.Println("Failed to parse user data:", unmarshalError)
-		common.SendError(ctx, http.StatusInternalServerError, 0, "Failed to parse user data", unmarshalError)
+
+	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data))  {
+
+		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
+		if unmarshalError != nil {
+			log.Println("Failed to parse user data:", unmarshalError)
+			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
+			return
+		}
+	}else {
+		common.SendError(
+			ctx, 
+			http.StatusInternalServerError, 
+			userManagerResponse.Status, 
+			userManagerResponse.StatusMessage, 
+			fmt.Errorf(userManagerResponse.StatusMessage),
+		)
+		log.Println("fetching users list failed:", userManagerResponse.StatusMessage)
 		return
 	}
-
-	fmt.Printf("Parsed data type: %T\n", parsedData)
 
 	response := builder.BuildUserDTOs(parsedData)
 
 	fmt.Println("response", response)
 
-	common.SendSuccess(ctx, http.StatusOK, users.Status, users.StatusMessage, response)
+	common.SendSuccess(ctx, http.StatusOK, userManagerResponse.Status, userManagerResponse.StatusMessage, response)
 
 	log.Println("users fetched successfully")
 
@@ -123,14 +145,6 @@ func (handler *UserHandler) UserList(ctx *gin.Context) {
 func (handler *UserHandler) GetAUser(ctx *gin.Context) {
 	// Create a new user object
 	userData := common.NewUserOb()
-
-	// Bind the request body to the userData object
-	// err := ctx.BindJSON(&userData)
-	// if err != nil {
-	//     log.Println("binding user details from JSON failed:", err)
-	//     common.SendError(ctx, http.StatusBadRequest, err)
-	//     return
-	// }
 
 	// Extract the user ID from the URL parameters
 	userIdStr, ok := ctx.Params.Get("userId")
@@ -144,7 +158,128 @@ func (handler *UserHandler) GetAUser(ctx *gin.Context) {
 	userId, err := strconv.ParseUint(userIdStr, 10, 32)
 	if err != nil {
 		log.Println("invalid user ID format:", err)
-		common.SendError(ctx, http.StatusBadRequest,0, "", fmt.Errorf("invalid user ID format"))
+		common.SendError(ctx, http.StatusBadRequest,0, "invalid user ID format", fmt.Errorf("invalid user ID format"))
+		return
+	}
+
+	// Assign the user ID to the userData object
+	userData.UserID = uint(userId)
+
+	// Call the get a user method in the user manager
+	userManagerResponse, err := handler.userManager.GetAUser(userData)
+	//this error block will work when the store procedure catch block catches an error
+	if err != nil {
+		log.Println("user update failed:", err)
+		common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
+		return
+	}
+
+	fmt.Printf("user.Data type: %T\n", userManagerResponse.Data)
+	fmt.Println("user.Data content:", userManagerResponse.Data)
+
+	// users.Data is a string, so directly unmarshal
+	var parsedData []map[string]interface{}
+	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data)) {
+
+		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
+		if unmarshalError != nil {
+			log.Println("Failed to parse user data:", unmarshalError)
+			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
+			return
+		}
+	}else {
+		common.SendError(
+			ctx, 
+			http.StatusInternalServerError, 
+			userManagerResponse.Status, 
+			userManagerResponse.StatusMessage, 
+			fmt.Errorf(userManagerResponse.StatusMessage),
+		)
+		log.Printf("Fetching user of ID %d failed: %s", userId, userManagerResponse.StatusMessage)
+		return
+	}
+
+	fmt.Printf("Parsed data type: %T\n", parsedData)
+
+	response := builder.BuildUserDTOs(parsedData)
+	
+	// Send success response
+	common.SendSuccess(ctx, http.StatusOK, userManagerResponse.Status, userManagerResponse.StatusMessage, response)
+	log.Println("user fetched successfully")
+}
+
+func (handler *UserHandler) InsertUser(ctx *gin.Context) {
+	userData := common.NewUserOb()
+
+	err := ctx.BindJSON(&userData)
+
+	if err != nil {
+		// ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		log.Println("binding user details from json is failed:", err)
+		common.SendError(nil, http.StatusBadRequest, 0, "binding user details from json is failed", err)
+		return
+	}
+
+	userManagerResponse, err := handler.userManager.CreateUser(userData)
+
+	if err != nil {
+		log.Println("user update failed:", err)
+		common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
+		return
+	}
+
+	var parsedData []map[string]interface{}
+	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data)) {
+
+		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
+		if unmarshalError != nil {
+			log.Println("Failed to parse user data:", unmarshalError)
+			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
+			return
+		}
+	}else {
+		common.SendError(
+			ctx, 
+			http.StatusInternalServerError, 
+			userManagerResponse.Status, 
+			userManagerResponse.StatusMessage, 
+			fmt.Errorf(userManagerResponse.StatusMessage),
+		)
+		log.Printf("Creating a user failed: %s", userManagerResponse.StatusMessage)
+		return
+	}
+
+	response := builder.BuildUserDTOs(parsedData)
+
+	common.SendSuccess(ctx, http.StatusCreated,userManagerResponse.Status, userManagerResponse.StatusMessage, response)
+	log.Println("user created successfully")
+}
+
+func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
+	// Create a new user object
+	userData := common.NewUserOb()
+
+	// Bind the request body to the userData object
+	err := ctx.BindJSON(&userData)
+	if err != nil {
+		log.Println("binding user details from JSON failed:", err)
+		common.SendError(nil, http.StatusBadRequest, 0, "binding user details from json is failed", err)
+		return
+	}
+
+	// Extract the user ID from the URL parameters
+	userIdStr, ok := ctx.Params.Get("userId")
+	if !ok {
+		log.Println("user ID is missing in the request")
+		common.SendError(ctx, http.StatusBadRequest, 0, "user ID is missing in the request", fmt.Errorf("user ID is required"))
+		return
+	}
+
+	// Convert string userId to uint
+	userId, err := strconv.ParseUint(userIdStr, 10, 32)
+	if err != nil {
+		log.Println("invalid user ID format:", err)
+		common.SendError(ctx, http.StatusBadRequest, 0, "invalid user ID format", fmt.Errorf("invalid user ID format"))
 		return
 	}
 
@@ -152,125 +287,38 @@ func (handler *UserHandler) GetAUser(ctx *gin.Context) {
 	userData.UserID = uint(userId)
 
 	// Call the update method in the user manager
-	user, err := handler.userManager.GetAUser(userData)
+	userManagerResponse, err := handler.userManager.UpdateUser(userData)
 
 	if err != nil {
 		log.Println("user update failed:", err)
-		common.SendError(ctx, http.StatusInternalServerError,0, user.StatusMessage, err)
+		common.SendError(ctx, http.StatusInternalServerError, userManagerResponse.Status, userManagerResponse.StatusMessage, err)
 		return
 	}
 
-	fmt.Printf("user.Data type: %T\n", user.Data)
-	fmt.Println("user.Data content:", user.Data)
-
-	// users.Data is a string, so directly unmarshal
 	var parsedData []map[string]interface{}
-	unmarshalError := json.Unmarshal([]byte(user.Data), &parsedData)
-	if unmarshalError != nil {
-		log.Println("Failed to parse user data:", unmarshalError)
-		common.SendError(ctx, http.StatusInternalServerError, 0, "Failed to parse user data", unmarshalError)
+	if userManagerResponse.Data != "" && json.Valid([]byte(userManagerResponse.Data)) {
+
+		unmarshalError := json.Unmarshal([]byte(userManagerResponse.Data), &parsedData)
+		if unmarshalError != nil {
+			log.Println("Failed to parse user data:", unmarshalError)
+			common.SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", unmarshalError)
+			return
+		}
+	}else {
+		common.SendError(
+			ctx, 
+			http.StatusInternalServerError, 
+			userManagerResponse.Status, 
+			userManagerResponse.StatusMessage, 
+			fmt.Errorf(userManagerResponse.StatusMessage),
+		)
+		log.Printf("Updating a user of ID %d failed: %s", userId, userManagerResponse.StatusMessage)
 		return
 	}
-
-	fmt.Printf("Parsed data type: %T\n", parsedData)
 
 	response := builder.BuildUserDTOs(parsedData)
 
-	// errors := errorHandlers.HandleErrorResponse(ctx, user.Result, err)
-    // if errors != nil {
-    //     return 
-    // }
-
-	// response := builder.BuildUserDTOs(user.Result)
-
-	
-
 	// Send success response
-	common.SendSuccess(ctx, http.StatusOK, user.Status, user.StatusMessage, response)
-	log.Println("user fetched successfully")
+	common.SendSuccess(ctx, http.StatusOK, userManagerResponse.Status, userManagerResponse.StatusMessage, response)
+	log.Println("user updated successfully")
 }
-
-// func (handler *UserHandler) InsertUser(ctx *gin.Context) {
-// 	userData := common.NewUserOb()
-
-// 	err := ctx.BindJSON(&userData)
-
-// 	if err != nil {
-// 		// ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		log.Println("binding user details from json is failed:", err)
-// 		common.SendError(nil, http.StatusBadRequest, "", err)
-// 		return
-// 	}
-
-// 	newUser, err := handler.userManager.CreateUser(userData)
-
-// 	errors := errorHandlers.HandleErrorResponse(ctx, newUser.Result, err)
-//     if errors != nil {
-//         return 
-//     }
-
-// 	response := builder.BuildUserDTOs(newUser.Result)
-
-// 	fmt.Println("error", err)
-
-// 	if err != nil {
-// 		log.Println("user insertion failed", err)
-// 		common.SendError(ctx, http.StatusInternalServerError, "", err)
-// 		return
-// 	}
-
-// 	common.SendSuccess(ctx, http.StatusOK, newUser.Message, response)
-// 	log.Println("user created successfully")
-// }
-
-// func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
-// 	// Create a new user object
-// 	userData := common.NewUserOb()
-
-// 	// Bind the request body to the userData object
-// 	err := ctx.BindJSON(&userData)
-// 	if err != nil {
-// 		log.Println("binding user details from JSON failed:", err)
-// 		common.SendError(ctx, http.StatusBadRequest, "binding user details from JSON failed", err)
-// 		return
-// 	}
-
-// 	// Extract the user ID from the URL parameters
-// 	userIdStr, ok := ctx.Params.Get("userId")
-// 	if !ok {
-// 		log.Println("user ID is missing in the request")
-// 		common.SendError(ctx, http.StatusBadRequest, "user ID is missing in the request", fmt.Errorf("user ID is required"))
-// 		return
-// 	}
-
-// 	// Convert string userId to uint
-// 	userId, err := strconv.ParseUint(userIdStr, 10, 32)
-// 	if err != nil {
-// 		log.Println("invalid user ID format:", err)
-// 		common.SendError(ctx, http.StatusBadRequest, "invalid user ID format", fmt.Errorf("invalid user ID format"))
-// 		return
-// 	}
-
-// 	// Assign the user ID to the userData object
-// 	userData.UserID = uint(userId)
-
-// 	// Call the update method in the user manager
-// 	updatedUser, err := handler.userManager.UpdateUser(userData)
-
-// 	errors := errorHandlers.HandleErrorResponse(ctx, updatedUser.Result, err)
-//     if errors != nil {
-//         return 
-//     }
-
-// 	response := builder.BuildUserDTOs(updatedUser.Result)
-
-// 	if err != nil {
-// 		log.Println("user update failed:", err)
-// 		common.SendError(ctx, http.StatusInternalServerError, "user update failed", err)
-// 		return
-// 	}
-
-// 	// Send success response
-// 	common.SendSuccess(ctx, http.StatusOK, updatedUser.Message, response)
-// 	log.Println("user updated successfully")
-// }
