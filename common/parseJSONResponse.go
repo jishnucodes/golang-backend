@@ -14,36 +14,24 @@ import (
 
 
 // ParseJSONResponse parses a JSON response and extracts data from the "data" field
-func ParseJSONResponse(managerResponse *spResponse.Result, ctx *gin.Context) ([]map[string]interface{}, error) {
+func ParseJSONResponse(managerResponse *spResponse.Result, ctx *gin.Context) ([]map[string]interface{}) {
 	var parsedData []map[string]interface{}
 
 	// Check if Data is not empty and is valid JSON
-	if managerResponse.Data != "" && json.Valid([]byte(managerResponse.Data)) {
+	if managerResponse.Data != "nil" && json.Valid([]byte(managerResponse.Data)) {
 		err := json.Unmarshal([]byte(managerResponse.Data), &parsedData)
 		if err != nil {
 			log.Println("Failed to parse user data:", err)
 			// SendError(ctx, http.StatusBadRequest, 0, "Failed to parse user data", err)
 			if errors := HandleRequestError(ctx, err, "Failed to parse user data"); errors != nil {
-				return nil, errors // Exit if an error occurred (response is already sent)
+				return nil // Exit if an error occurred (response is already sent)
 			}
 			
-			return nil, err
+			return nil
 		}
-		return parsedData, nil
+		return parsedData
 	}
 
-	// Handle invalid response
-	// SendError(
-	// 	ctx,
-	// 	http.StatusInternalServerError,
-	// 	managerResponse.Status,
-	// 	managerResponse.StatusMessage,
-	// 	fmt.Errorf(managerResponse.StatusMessage),
-	// )
-	if err := HandleHTTPError(ctx, managerResponse); err != nil {
-		return nil, err// Exit if an error occurred (response is already sent)
-	}
-	
-	
-	return nil, fmt.Errorf(managerResponse.StatusMessage)
+	fmt.Println("working this when deleting")
+	return nil
 }

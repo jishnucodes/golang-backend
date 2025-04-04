@@ -60,3 +60,5 @@
 2025/04/03 20:00:34 Running on port 8088
 2025/04/03 20:00:50 binding JSON failed: invalid character '}' after object key
 2025/04/03 20:03:54 Running on port 8088
+2025/04/03 20:04:05 binding JSON failed: invalid character '}' after object key
+2025/04/03 20:04:05 binding JSON failed invalid character '}' after object key

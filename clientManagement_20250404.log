@@ -1,0 +1,55 @@
+2025/04/04 09:46:55 Running on port 8088
+2025/04/04 09:47:05 binding JSON failed: invalid character '}' after object key
+2025/04/04 09:47:05 binding JSON failed invalid character '}' after object key
+2025/04/04 09:47:25 binding JSON failed: invalid character '}' after object key
+2025/04/04 09:47:25 binding JSON failed invalid character '}' after object key
+2025/04/04 09:47:31 binding JSON failed: invalid character '}' after object key
+2025/04/04 09:47:31 binding JSON failed invalid character '}' after object key
+2025/04/04 09:48:04 binding JSON failed: invalid character '}' looking for beginning of object key string
+2025/04/04 09:48:04 binding JSON failed invalid character '}' looking for beginning of object key string
+2025/04/04 09:49:41 Error: Login successful
+2025/04/04 09:53:35 Running on port 8088
+2025/04/04 09:53:43 user logged in successfully
+2025/04/04 09:57:03 Running on port 8088
+2025/04/04 09:57:13 Error: Login successful
+2025/04/04 09:58:45 Running on port 8088
+2025/04/04 09:58:54 Error: Login successful
+2025/04/04 09:59:57 Running on port 8088
+2025/04/04 10:00:10 user logged in successfully
+2025/04/04 10:00:50 Running on port 8088
+2025/04/04 10:01:04 user logged in successfully
+2025/04/04 10:01:09 binding JSON failed invalid character '}' looking for beginning of object key string
+2025/04/04 10:01:41 Error: Invalid password
+2025/04/04 10:03:56 Running on port 8088
+2025/04/04 10:04:05 Error: Invalid password
+2025/04/04 10:04:17 Error: User is not found
+2025/04/04 10:04:25 user logged in successfully
+2025/04/04 11:00:57 Running on port 8088
+2025/04/04 11:01:12 user logged in successfully
+2025/04/04 11:01:17 Error: Invalid password
+2025/04/04 11:01:28 binding JSON failed invalid character '}' looking for beginning of object key string
+2025/04/04 11:01:41 user logged in successfully
+2025/04/04 11:01:50 users fetched successfully
+2025/04/04 11:03:22 Error: Email is already existing
+2025/04/04 11:03:39 user created successfully
+2025/04/04 11:04:04 Error: Email is already existing
+2025/04/04 11:04:15 user updated successfully
+2025/04/04 11:04:36 Error: Email already exists for another user
+2025/04/04 11:05:00 Error: User is not found
+2025/04/04 11:06:05 Error: User is not found
+2025/04/04 11:09:43 Running on port 8088
+2025/04/04 11:10:03 Error: User is not found
+2025/04/04 11:12:32 Running on port 8088
+2025/04/04 11:16:58 Running on port 8088
+2025/04/04 11:20:41 Running on port 8088
+2025/04/04 11:20:58 user deleted successfully
+2025/04/04 11:25:08 Running on port 8088
+2025/04/04 11:25:21 user deleted successfully
+2025/04/04 11:25:28 users fetched successfully
+2025/04/04 11:25:55 user created successfully
+2025/04/04 11:26:02 Error: Email is already existing
+2025/04/04 12:01:59 user deleted successfully
+2025/04/04 12:14:08 Running on port 8088
+2025/04/04 12:17:44 user logged in successfully
+2025/04/04 12:17:53 Error: Invalid password
+2025/04/04 12:20:34 Error: Invalid password
