@@ -53,3 +53,8 @@
 2025/04/04 12:17:44 user logged in successfully
 2025/04/04 12:17:53 Error: Invalid password
 2025/04/04 12:20:34 Error: Invalid password
+2025/04/04 12:41:40 Running on port 8088
+2025/04/04 12:41:59 Error: Invalid password
+2025/04/04 12:42:05 user logged in successfully
+2025/04/04 12:42:12 Error: User is not found
+2025/04/04 12:42:18 user deleted successfully
