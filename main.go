@@ -74,9 +74,9 @@ func main() {
 	userHandler := handlers.NewUserHandler(userManager)
 	userHandler.RegisterApis(router)
 
-	// patientManager := managers.NewPatientManager()
-	// patientHandler := handlers.NewPatientHandler(patientManager)
-	// patientHandler.RegisterApis(router)
+	patientManager := managers.NewPatientManager()
+	patientHandler := handlers.NewPatientHandler(patientManager)
+	patientHandler.RegisterApis(router)
 	
 	s := &http.Server{
 		Addr:           ":" + port, //":5005",

@@ -26,7 +26,7 @@ func HandleErrorResponse(ctx *gin.Context, result []map[string]interface{}, err 
                 }
 
                 // Send the error response with the message
-                common.SendError(ctx, http.StatusUnauthorized, errorMessage, err)
+                common.SendError(ctx, http.StatusUnauthorized, 0, errorMessage, err)
                 return err
             } else {
                 // If "Message" is not a string, log the unexpected type

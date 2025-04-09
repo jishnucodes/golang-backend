@@ -1,10 +1,12 @@
 package common
 
 import (
+	"encoding/base64"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"clinic-management/backend/spResponse" // Import the response struct
 
@@ -81,5 +83,57 @@ func GetParamAsUint(ctx *gin.Context, paramName string) (uint, error) {
 	}
 
 	return uint(parsedValue), nil
+}
+
+
+// Safely convert to uint, handling nil and float64 values
+func ToUint(value interface{}) uint {
+	if value == nil {
+		return 0
+	}
+	switch v := value.(type) {
+	case float64:
+		return uint(v) // JSON unmarshals numbers as float64
+	case int:
+		return uint(v)
+	}
+	return 0
+}
+
+// Safely convert to string
+func ToString(value interface{}) string {
+	if value == nil {
+		return ""
+	}
+	if v, ok := value.(string); ok {
+		return v
+	}
+	return ""
+}
+
+// Safely decode base64-encoded biometric data
+func DecodeBase64(value string) []byte {
+	if value == "" {
+		return nil
+	}
+	data, err := base64.StdEncoding.DecodeString(value)
+	if err != nil {
+		return nil
+	}
+	return data
+}
+
+// Safely parse time.Time from RFC3339 string
+func ParseTime(value interface{}) time.Time {
+	if value == nil {
+		return time.Time{}
+	}
+	if str, ok := value.(string); ok {
+		t, err := time.Parse(time.RFC3339, str)
+		if err == nil {
+			return t
+		}
+	}
+	return time.Time{}
 }
 

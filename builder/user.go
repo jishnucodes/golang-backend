@@ -2,7 +2,6 @@ package builder
 
 import (
 	"clinic-management/backend/common"
-	"encoding/base64"
 	"time"
 )
 
@@ -57,21 +56,21 @@ func BuildUserDTOs(usersData []map[string]interface{}) []*UserDTO {
 
 	for _, userMap := range usersData {
 		userDTO := &UserDTO{
-			UserID:        toUint(userMap["UserID"]),
-			FirstName:     toString(userMap["FirstName"]),
-			LastName:      toString(userMap["LastName"]),
-			DOB:           parseTime(userMap["DOB"]),
-			Gender:        toString(userMap["Gender"]),
-			ContactNumber: toString(userMap["ContactNumber"]),
-			Email:         toString(userMap["Email"]),
-			Address:       toString(userMap["Address"]),
-			Role:          toString(userMap["Role"]),
-			BiometricData: decodeBase64(toString(userMap["BiometricData"])),
+			UserID:        common.ToUint(userMap["UserID"]),
+			FirstName:     common.ToString(userMap["FirstName"]),
+			LastName:      common.ToString(userMap["LastName"]),
+			DOB:           common.ParseTime(userMap["DOB"]),
+			Gender:        common.ToString(userMap["Gender"]),
+			ContactNumber: common.ToString(userMap["ContactNumber"]),
+			Email:         common.ToString(userMap["Email"]),
+			Address:       common.ToString(userMap["Address"]),
+			Role:          common.ToString(userMap["Role"]),
+			BiometricData: common.DecodeBase64(common.ToString(userMap["BiometricData"])),
 			// Password:      toString(userMap["Password"]),
-			CreatedAt:     parseTime(userMap["CreatedAt"]),
-			CreatedBy:     toString(userMap["CreatedBy"]),
-			ModifiedAt:    parseTime(userMap["ModifiedAt"]),
-			ModifiedBy:    toString(userMap["ModifiedBy"]),
+			CreatedAt:     common.ParseTime(userMap["CreatedAt"]),
+			CreatedBy:     common.ToString(userMap["CreatedBy"]),
+			ModifiedAt:    common.ParseTime(userMap["ModifiedAt"]),
+			ModifiedBy:    common.ToString(userMap["ModifiedBy"]),
 		}
 
 		userDTOs = append(userDTOs, userDTO)
@@ -82,56 +81,7 @@ func BuildUserDTOs(usersData []map[string]interface{}) []*UserDTO {
 
 // Helper functions for safe type conversion
 
-// Safely convert to uint, handling nil and float64 values
-func toUint(value interface{}) uint {
-	if value == nil {
-		return 0
-	}
-	switch v := value.(type) {
-	case float64:
-		return uint(v) // JSON unmarshals numbers as float64
-	case int:
-		return uint(v)
-	}
-	return 0
-}
 
-// Safely convert to string
-func toString(value interface{}) string {
-	if value == nil {
-		return ""
-	}
-	if v, ok := value.(string); ok {
-		return v
-	}
-	return ""
-}
-
-// Safely decode base64-encoded biometric data
-func decodeBase64(value string) []byte {
-	if value == "" {
-		return nil
-	}
-	data, err := base64.StdEncoding.DecodeString(value)
-	if err != nil {
-		return nil
-	}
-	return data
-}
-
-// Safely parse time.Time from RFC3339 string
-func parseTime(value interface{}) time.Time {
-	if value == nil {
-		return time.Time{}
-	}
-	if str, ok := value.(string); ok {
-		t, err := time.Parse(time.RFC3339, str)
-		if err == nil {
-			return t
-		}
-	}
-	return time.Time{}
-}
 
 
 
