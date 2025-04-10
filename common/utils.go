@@ -26,9 +26,9 @@ import (
 // HandleJSONParseError logs and sends a response if JSON parsing fails.
 func HandleRequestError(ctx *gin.Context, err error, message string) error {
 	if err != nil {
-		log.Println(message, err) // Log the error with a custom message
+		log.Println(message, err)                              // Log the error with a custom message
 		SendError(ctx, http.StatusBadRequest, 0, message, err) // Send error response
-		return err // Return the error so the caller knows parsing failed
+		return err                                             // Return the error so the caller knows parsing failed
 	}
 	return nil // Return nil if there's no error
 }
@@ -49,18 +49,16 @@ func HandleServerError(ctx *gin.Context, managerResponse *spResponse.Result, err
 		log.Println("Error:", err)
 		SendError(ctx, http.StatusInternalServerError, managerResponse.Status, managerResponse.StatusMessage, err)
 		return true
-	}else if err != nil && managerResponse.Status == 0 {
+	} else if err != nil && managerResponse.Status == 0 {
 		fmt.Println("working server error -3 on deleting")
-		log.Println("Error:", err) // Log the error with a custom message
+		log.Println("Error:", err)                                                                        // Log the error with a custom message
 		SendError(ctx, http.StatusBadRequest, managerResponse.Status, managerResponse.StatusMessage, err) // Send error response
 		return true
 	}
 	fmt.Println("working server error -4 on deleting")
 	return false
-	
 
 }
-
 
 func GetParamAsUint(ctx *gin.Context, paramName string) (uint, error) {
 	paramValue, ok := ctx.Params.Get(paramName)
@@ -68,7 +66,7 @@ func GetParamAsUint(ctx *gin.Context, paramName string) (uint, error) {
 		err := fmt.Errorf("%s is required", paramName)
 		log.Println("Error:", err)
 		// SendError(ctx, http.StatusBadRequest, 0, fmt.Sprintf("%s is missing in the request", paramName), err)
-		HandleRequestError(ctx, err, fmt.Sprintf("%s is missing in the request", paramName)); 
+		HandleRequestError(ctx, err, fmt.Sprintf("%s is missing in the request", paramName))
 		return 0, err
 	}
 
@@ -84,7 +82,6 @@ func GetParamAsUint(ctx *gin.Context, paramName string) (uint, error) {
 
 	return uint(parsedValue), nil
 }
-
 
 // Safely convert to uint, handling nil and float64 values
 func ToUint(value interface{}) uint {
@@ -137,3 +134,20 @@ func ParseTime(value interface{}) time.Time {
 	return time.Time{}
 }
 
+// Safely convert to float64
+func ToFloat64(value interface{}) float64 {
+	if value == nil {
+		return 0
+	}
+	switch v := value.(type) {
+	case float64:
+		return v
+	case int:
+		return float64(v)
+	case string:
+		if f, err := strconv.ParseFloat(v, 64); err == nil {
+			return f
+		}
+	}
+	return 0
+}

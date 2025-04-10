@@ -2,10 +2,9 @@ package builder
 
 import (
 	"clinic-management/backend/common"
+	"clinic-management/backend/common/requestData"
 	"time"
 )
-
-
 
 // UserDTO represents the structure of the user data.
 type UserDTO struct {
@@ -26,8 +25,9 @@ type UserDTO struct {
 	ModifiedBy    string    `json:"modifiedBy"`
 }
 
+
 // BuildUserDTO constructs and returns a UserDTO from userData.
-func BuildUserDTO(userData *common.UserObj) *UserDTO {
+func BuildUserDTO(userData *requestData.UserObj) *UserDTO {
 	var userObj UserDTO
 
 	// Mapping fields from UserObj to UserDTO

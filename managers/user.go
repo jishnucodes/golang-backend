@@ -4,6 +4,7 @@ import (
 	// "clinic-management/backend/builder"
 	"clinic-management/backend/builder"
 	"clinic-management/backend/common"
+	"clinic-management/backend/common/requestData"
 	"clinic-management/backend/spResponse"
 	"encoding/json"
 
@@ -16,12 +17,12 @@ import (
 // this is the interface which have the methods. Methods are the functions which is
 // also a method of userStruct
 type UserManager interface {
-	Login(userData *common.UserObj) (*spResponse.Result, error)
+	Login(userData *requestData.UserObj) (*spResponse.Result, error)
 	GetUsers() (*spResponse.Result, error)
-    GetAUser(userData *common.UserObj) (*spResponse.Result, error)
-	CreateUser(userData *common.UserObj) (*spResponse.Result, error)
-    UpdateUser(userData *common.UserObj) (*spResponse.Result, error)
-    DeleteAUser(userData *common.UserObj) (*spResponse.Result, error)
+    GetAUser(userData *requestData.UserObj) (*spResponse.Result, error)
+	CreateUser(userData *requestData.UserObj) (*spResponse.Result, error)
+    UpdateUser(userData *requestData.UserObj) (*spResponse.Result, error)
+    DeleteAUser(userData *requestData.UserObj) (*spResponse.Result, error)
 }
 
 // type returnData struct {
@@ -50,7 +51,7 @@ func NewUserManager() UserManager {
 	return &userManager{}
 }
 
-func (um *userManager) Login(userData *common.UserObj) (*spResponse.Result, error) {
+func (um *userManager) Login(userData *requestData.UserObj) (*spResponse.Result, error) {
 
 	userDTO := builder.BuildUserDTO(userData)
 	fmt.Println("userDTO:", userDTO)
@@ -96,7 +97,7 @@ func (um *userManager) GetUsers() (*spResponse.Result, error) {
     return data, nil
 }
 
-func (um *userManager) GetAUser(userData *common.UserObj) (*spResponse.Result, error) {
+func (um *userManager) GetAUser(userData *requestData.UserObj) (*spResponse.Result, error) {
     // Convert input to DTO
     userDTO := builder.BuildUserDTO(userData)
     fmt.Println("userDTO:", userDTO)
@@ -126,7 +127,7 @@ func (um *userManager) GetAUser(userData *common.UserObj) (*spResponse.Result, e
     return data, nil
 }
 
-func (um *userManager) CreateUser(userData *common.UserObj) (*spResponse.Result, error) {
+func (um *userManager) CreateUser(userData *requestData.UserObj) (*spResponse.Result, error) {
     // Convert input to DTO
     userDTO := builder.BuildUserDTO(userData)
     fmt.Println("userDTO:", userDTO)
@@ -153,7 +154,7 @@ func (um *userManager) CreateUser(userData *common.UserObj) (*spResponse.Result,
     return data, nil
 }
 
-func (um *userManager) UpdateUser(userData *common.UserObj) (*spResponse.Result, error) {
+func (um *userManager) UpdateUser(userData *requestData.UserObj) (*spResponse.Result, error) {
     // Convert input to DTO
     userDTO := builder.BuildUserDTO(userData)
     fmt.Println("userDTO:", userDTO)
@@ -179,7 +180,7 @@ func (um *userManager) UpdateUser(userData *common.UserObj) (*spResponse.Result,
     return data, nil
 }
 
-func (um *userManager) DeleteAUser(userData *common.UserObj) (*spResponse.Result, error) {
+func (um *userManager) DeleteAUser(userData *requestData.UserObj) (*spResponse.Result, error) {
     // Convert input to DTO
     userDTO := builder.BuildUserDTO(userData)
     fmt.Println("userDTO:", userDTO)

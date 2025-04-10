@@ -3,6 +3,7 @@ package managers
 import (
 	"clinic-management/backend/builder"
 	"clinic-management/backend/common"
+	"clinic-management/backend/common/requestData"
 	"clinic-management/backend/spResponse"
 	"encoding/json"
 	"fmt"
@@ -11,10 +12,10 @@ import (
 // PatientManager interface defines the methods for patient management
 type PatientManager interface {
 	GetPatients() (*spResponse.Result, error)
-	GetAPatient(patientData *common.PatientCreationInput) (*spResponse.Result, error)
-	CreatePatient(patientData *common.PatientCreationInput) (*spResponse.Result, error)
-	UpdatePatient(patientData *common.PatientCreationInput) (*spResponse.Result, error)
-	DeleteAPatient(patientData *common.PatientCreationInput) (*spResponse.Result, error)
+	GetAPatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+	CreatePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+	UpdatePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+	DeleteAPatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
 }
 
 type patientManager struct {
@@ -42,7 +43,7 @@ func (pm *patientManager) GetPatients() (*spResponse.Result, error) {
 }
 
 // GetAPatient retrieves a specific patient
-func (pm *patientManager) GetAPatient(patientData *common.PatientCreationInput) (*spResponse.Result, error) {
+func (pm *patientManager) GetAPatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error) {
 	patientDTO := builder.BuildPatientDTO(patientData)
 	fmt.Println("patientDTO:", patientDTO)
 
@@ -65,7 +66,7 @@ func (pm *patientManager) GetAPatient(patientData *common.PatientCreationInput) 
 }
 
 // CreatePatient creates a new patient
-func (pm *patientManager) CreatePatient(patientData *common.PatientCreationInput) (*spResponse.Result, error) {
+func (pm *patientManager) CreatePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error) {
 	patientDTO := builder.BuildPatientDTO(patientData)
 	fmt.Println("patientDTO:", patientDTO)
 
@@ -89,7 +90,7 @@ func (pm *patientManager) CreatePatient(patientData *common.PatientCreationInput
 }
 
 // UpdatePatient updates an existing patient
-func (pm *patientManager) UpdatePatient(patientData *common.PatientCreationInput) (*spResponse.Result, error) {
+func (pm *patientManager) UpdatePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error) {
 	patientDTO := builder.BuildPatientDTO(patientData)
 	fmt.Println("patientDTO:", patientDTO)
 
@@ -112,7 +113,7 @@ func (pm *patientManager) UpdatePatient(patientData *common.PatientCreationInput
 }
 
 // DeleteAPatient deletes a patient
-func (pm *patientManager) DeleteAPatient(patientData *common.PatientCreationInput) (*spResponse.Result, error) {
+func (pm *patientManager) DeleteAPatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error) {
 	patientDTO := builder.BuildPatientDTO(patientData)
 	fmt.Println("patientDTO:", patientDTO)
 

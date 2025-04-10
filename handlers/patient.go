@@ -3,6 +3,7 @@ package handlers
 import (
 	"clinic-management/backend/builder"
 	"clinic-management/backend/common"
+	"clinic-management/backend/common/requestData"
 	"clinic-management/backend/managers"
 	"fmt"
 	"log"
@@ -51,7 +52,7 @@ func (handler *PatientHandler) PatientList(ctx *gin.Context) {
 }
 
 func (handler *PatientHandler) GetAPatient(ctx *gin.Context) {
-	patientData := common.NewPatientCreationInput()
+	patientData := requestData.NewPatientCreationInput()
 
 	patientId, err := common.GetParamAsUint(ctx, "patientId")
 	if err != nil {
@@ -77,7 +78,7 @@ func (handler *PatientHandler) GetAPatient(ctx *gin.Context) {
 }
 
 func (handler *PatientHandler) InsertPatient(ctx *gin.Context) {
-	patientData := common.NewPatientCreationInput()
+	patientData := requestData.NewPatientCreationInput()
 	// patientData.DOB = common.ParseTime(patientData.DOB)
 
 	if err := common.BindJSONAndValidate(ctx, &patientData); err != nil {
@@ -99,7 +100,7 @@ func (handler *PatientHandler) InsertPatient(ctx *gin.Context) {
 }
 
 func (handler *PatientHandler) UpdatePatient(ctx *gin.Context) {
-	patientData := common.NewPatientCreationInput()
+	patientData := requestData.NewPatientCreationInput()
 
 	if err := common.BindJSONAndValidate(ctx, &patientData); err != nil {
 		return
@@ -125,7 +126,7 @@ func (handler *PatientHandler) UpdatePatient(ctx *gin.Context) {
 }
 
 func (handler *PatientHandler) DeleteAPatient(ctx *gin.Context) {
-	patientData := common.NewPatientCreationInput()
+	patientData := requestData.NewPatientCreationInput()
 
 	patientId, err := common.GetParamAsUint(ctx, "patientId")
 	if err != nil {

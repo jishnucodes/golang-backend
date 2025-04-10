@@ -5,6 +5,7 @@ import (
 	// "clinic-management/backend/builder"
 	"clinic-management/backend/builder"
 	"clinic-management/backend/common"
+	"clinic-management/backend/common/requestData"
 
 	// "clinic-management/backend/errorHandlers"
 	"clinic-management/backend/managers"
@@ -38,7 +39,7 @@ func (handler *UserHandler) RegisterApis(r *gin.Engine) {
 }
 
 func (handler *UserHandler) Login(ctx *gin.Context) {
-	userData := common.NewUserOb()
+	userData := requestData.NewUserOb()
 
 	// Bind the incoming JSON to the userData object
 	if err := common.BindJSONAndValidate(ctx, &userData); err != nil {
@@ -93,7 +94,7 @@ func (handler *UserHandler) UserList(ctx *gin.Context) {
 
 func (handler *UserHandler) GetAUser(ctx *gin.Context) {
 	// Create a new user object
-	userData := common.NewUserOb()
+	userData := requestData.NewUserOb()
 
 	userId, err := common.GetParamAsUint(ctx, "userId")
 	if err != nil {
@@ -124,7 +125,7 @@ func (handler *UserHandler) GetAUser(ctx *gin.Context) {
 }
 
 func (handler *UserHandler) InsertUser(ctx *gin.Context) {
-	userData := common.NewUserOb()
+	userData := requestData.NewUserOb()
 
 	// Bind the incoming JSON to the userData object
 	if err := common.BindJSONAndValidate(ctx, &userData); err != nil {
@@ -148,7 +149,7 @@ func (handler *UserHandler) InsertUser(ctx *gin.Context) {
 
 func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
 	// Create a new user object
-	userData := common.NewUserOb()
+	userData := requestData.NewUserOb()
 
 	// Bind the incoming JSON to the userData object
 	if err := common.BindJSONAndValidate(ctx, &userData); err != nil {
@@ -182,7 +183,7 @@ func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
 
 func (handler *UserHandler) DeleteAUser(ctx *gin.Context) {
 	// Create a new user object
-	userData := common.NewUserOb()
+	userData := requestData.NewUserOb()
 
 	userId, err := common.GetParamAsUint(ctx, "userId")
 	if err != nil {

@@ -2,6 +2,7 @@ package builder
 
 import (
 	"clinic-management/backend/common"
+	"clinic-management/backend/common/requestData"
 	"time"
 )
 
@@ -21,7 +22,7 @@ type PatientDTO struct {
 }
 
 // BuildUserDTO constructs and returns a UserDTO from userData.
-func BuildPatientDTO(patientData *common.PatientCreationInput) *PatientDTO {
+func BuildPatientDTO(patientData *requestData.PatientCreationInput) *PatientDTO {
 	var patientObj PatientDTO
 
 	patientObj.PatientID = patientData.PatientID
