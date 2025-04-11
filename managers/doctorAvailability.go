@@ -73,6 +73,7 @@ func (dam *doctorAvailabilityManager) GetADoctorAvailability(availabilityData *r
 
 func (dam *doctorAvailabilityManager) CreateDoctorAvailability(availabilityData *requestData.DoctorAvailabilityObj) (*spResponse.Result, error) {
 	// Convert input to DTO
+	fmt.Println("availabilityData:", availabilityData)
 	availabilityDTO := builder.BuildDoctorAvailabilityDTO(availabilityData)
 	fmt.Println("availabilityDTO:", availabilityDTO)
 
@@ -81,6 +82,8 @@ func (dam *doctorAvailabilityManager) CreateDoctorAvailability(availabilityData 
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal availability data: %w", err)
 	}
+
+	fmt.Println("availabilityJSON", string(availabilityJSON))
 
 	// Create an instance of the stored procedure executor
 	spExecutor := common.NewStoredProcedureExecutor()

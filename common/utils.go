@@ -123,14 +123,25 @@ func DecodeBase64(value string) []byte {
 // Safely parse time.Time from RFC3339 string
 func ParseTime(value interface{}) time.Time {
 	if value == nil {
+		fmt.Println("value is nil")
 		return time.Time{}
 	}
 	if str, ok := value.(string); ok {
+		fmt.Println("str is string")
 		t, err := time.Parse(time.RFC3339, str)
 		if err == nil {
 			return t
 		}
 	}
+	if str, ok := value.(string); ok {
+		layout := "15:04:05"
+		fmt.Println("str is string")
+		t, err := time.Parse(layout, str)
+		if err == nil {
+			return t
+		}
+	}
+	fmt.Println("time is nil")
 	return time.Time{}
 }
 

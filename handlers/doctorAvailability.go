@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	// "time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +32,8 @@ func (h *DoctorAvailabilityHandler) RegisterApis(router *gin.Engine) {
 	doctorAvailabilityGroup := router.Group(h.groupName)
 
 	doctorAvailabilityGroup.GET("/list", h.DoctorAvailabilityList)
-	doctorAvailabilityGroup.GET("/:doctorId/:availabilityId", h.GetADoctorAvailability)
+	// doctorAvailabilityGroup.GET("/:doctorId/:availabilityId", h.GetADoctorAvailability)
+	doctorAvailabilityGroup.GET("/:doctorId", h.GetADoctorAvailability)
 	doctorAvailabilityGroup.POST("/insert", h.InsertDoctorAvailability)
 	doctorAvailabilityGroup.PUT("/update/:availabilityId", h.UpdateDoctorAvailability)
 	doctorAvailabilityGroup.DELETE("/:availabilityId", h.DeleteADoctorAvailability)
@@ -69,14 +71,14 @@ func (h *DoctorAvailabilityHandler) GetADoctorAvailability(c *gin.Context) {
 		return // The function already sends an error response, so just return
 	}
 
-	availabilityId, err := common.GetParamAsUint(c, "availabilityId")
-	if err != nil {
-		return // The function already sends an error response, so just return
-	}
+	// availabilityId, err := common.GetParamAsUint(c, "availabilityId")
+	// if err != nil {
+	// 	return // The function already sends an error response, so just return
+	// }
 
 	// Assign the doctor ID and availability ID to the doctor availability object
 	availabilityData.DoctorID = uint(doctorId)
-	availabilityData.AvailabilityID = uint(availabilityId)
+	// availabilityData.AvailabilityID = uint(availabilityId)
 
 	// Call the get a doctor availability method in the doctor availability manager
 	doctorAvailabilityManagerResponse, err := h.doctorAvailabilityManager.GetADoctorAvailability(availabilityData)
@@ -86,6 +88,8 @@ func (h *DoctorAvailabilityHandler) GetADoctorAvailability(c *gin.Context) {
 
 	// Use ParseJSONResponse to parse the doctorAvailabilityManagerResponse data
 	parsedData := common.ParseJSONResponse(doctorAvailabilityManagerResponse, c)
+
+	fmt.Println("parsedData", parsedData)
 
 	response := builder.BuildDoctorAvailabilityDTOs(parsedData)
 
@@ -106,8 +110,22 @@ func (h *DoctorAvailabilityHandler) InsertDoctorAvailability(ctx *gin.Context) {
 		return // Error response is already handled in BindJSONAndValidate
 	}
 
-	doctorAvailabilityData.AvailableTimeStart = common.ParseTime(doctorAvailabilityData.AvailableTimeStart)
-	doctorAvailabilityData.AvailableTimeEnd = common.ParseTime(doctorAvailabilityData.AvailableTimeEnd)
+	// layout := "15:04:05"
+
+	// startTime, err := time.Parse(layout, doctorAvailabilityData.AvailableTimeStart)
+	// if err != nil {
+	// 	common.SendError(ctx, http.StatusBadRequest, 0, "Invalid start time format", err)
+	// 	return
+	// }
+
+	// endTime, err := time.Parse(layout, doctorAvailabilityData.AvailableTimeEnd)
+	// if err != nil {
+	// 	common.SendError(ctx, http.StatusBadRequest, 0, "Invalid end time format", err)
+	// 	return
+	// }
+
+	// doctorAvailabilityData.AvailableTimeStart = startTime.Format(layout)
+	// doctorAvailabilityData.AvailableTimeEnd = endTime.Format(layout)
 
 	doctorAvailabilityManagerResponse, err := h.doctorAvailabilityManager.CreateDoctorAvailability(doctorAvailabilityData)
 	if common.HandleServerError(ctx, doctorAvailabilityManagerResponse, err) {
@@ -116,6 +134,8 @@ func (h *DoctorAvailabilityHandler) InsertDoctorAvailability(ctx *gin.Context) {
 
 	// Use ParseJSONResponse to parse the doctorAvailabilityManagerResponse data
 	parsedData := common.ParseJSONResponse(doctorAvailabilityManagerResponse, ctx)
+
+	fmt.Println("parsedData", parsedData)
 
 	response := builder.BuildDoctorAvailabilityDTOs(parsedData)
 
