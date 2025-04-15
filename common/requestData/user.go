@@ -13,9 +13,12 @@ type UserObj struct {
 	ContactNumber string    `json:"contactNumber"`
 	Email         string    `json:"email"`
 	Address       string    `json:"address"`
-	Role          string    `json:"role"`
+	UserName      string    `json:"userName"`
+	UserType      uint       `json:"userType"`
+	ProfilePic    string    `json:"profilePic"`	
 	BiometricData []byte    `json:"biometricData"`
 	PasswordHash  string    `json:"password"`
+	Active        uint       `json:"active"`
 	CreatedAt     time.Time `json:"createdAt"`
 	CreatedBy     string    `json:"createdBy"`
 	ModifiedAt    time.Time `json:"modifiedAt"`

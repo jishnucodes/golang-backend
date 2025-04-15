@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -84,18 +85,53 @@ func GetParamAsUint(ctx *gin.Context, paramName string) (uint, error) {
 }
 
 // Safely convert to uint, handling nil and float64 values
+// func ToUint(value interface{}) uint {
+// 	if value == nil {
+// 		return 0
+// 	}
+// 	switch v := value.(type) {
+// 	case float64:
+// 		return uint(v) // JSON unmarshals numbers as float64
+// 	case int:
+// 		return uint(v)
+// 	}
+// 	return 0
+// }
+
 func ToUint(value interface{}) uint {
 	if value == nil {
 		return 0
 	}
+
 	switch v := value.(type) {
-	case float64:
-		return uint(v) // JSON unmarshals numbers as float64
+	case uint:
+		return v
 	case int:
 		return uint(v)
+	case int64:
+		return uint(v)
+	case float64:
+		return uint(v)
+	case float32:
+		return uint(v)
+	case bool:
+		if v {
+			return 1
+		}
+		return 0
+	case string:
+		if i, err := strconv.ParseUint(v, 10, 64); err == nil {
+			return uint(i)
+		}
+	case json.Number:
+		if i, err := v.Int64(); err == nil {
+			return uint(i)
+		}
 	}
+
 	return 0
 }
+
 
 // Safely convert to string
 func ToString(value interface{}) string {
@@ -158,6 +194,21 @@ func ToFloat64(value interface{}) float64 {
 	case string:
 		if f, err := strconv.ParseFloat(v, 64); err == nil {
 			return f
+		}
+	}
+	return 0
+}
+
+func ToInt(value interface{}) int {
+	if value == nil {
+		return 0
+	}
+	switch v := value.(type) {
+	case int:
+		return v
+	case string:
+		if i, err := strconv.Atoi(v); err == nil {
+			return i
 		}
 	}
 	return 0

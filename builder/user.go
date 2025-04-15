@@ -16,12 +16,15 @@ type UserDTO struct {
 	ContactNumber string    `json:"contactNumber"`
 	Email         string    `json:"email"`
 	Address       string    `json:"address"`
-	Role          string    `json:"role"`
+	UserName      string    `json:"userName"`
+	UserType      uint       `json:"userType"`
+	ProfilePic    string    `json:"profilePic"`
 	BiometricData []byte    `json:"biometricData"`
 	Password      string    `json:"password"`
-	CreatedAt     time.Time `json:"createdAt"`
+	Active        uint       `json:"active"`
+	CreatedAt     string    `json:"createdAt"`
 	CreatedBy     string    `json:"createdBy"`
-	ModifiedAt    time.Time `json:"modifiedAt"`
+	ModifiedAt    string    `json:"modifiedAt"`
 	ModifiedBy    string    `json:"modifiedBy"`
 }
 
@@ -39,12 +42,15 @@ func BuildUserDTO(userData *requestData.UserObj) *UserDTO {
 	userObj.ContactNumber = userData.ContactNumber
 	userObj.Email = userData.Email
 	userObj.Address = userData.Address
-	userObj.Role = userData.Role
+	userObj.UserName = userData.UserName
+	userObj.UserType = userData.UserType
+	userObj.ProfilePic = userData.ProfilePic
 	userObj.BiometricData = userData.BiometricData
 	userObj.Password = userData.PasswordHash
-	userObj.CreatedAt = userData.CreatedAt
+	userObj.Active = userData.Active
+	userObj.CreatedAt = userData.CreatedAt.Format("2006-01-02 15:04:05")
 	userObj.CreatedBy = userData.CreatedBy
-	userObj.ModifiedAt = userData.ModifiedAt
+	userObj.ModifiedAt = userData.ModifiedAt.Format("2006-01-02 15:04:05")
 	userObj.ModifiedBy = userData.ModifiedBy
 
 	return &userObj
@@ -64,12 +70,15 @@ func BuildUserDTOs(usersData []map[string]interface{}) []*UserDTO {
 			ContactNumber: common.ToString(userMap["ContactNumber"]),
 			Email:         common.ToString(userMap["Email"]),
 			Address:       common.ToString(userMap["Address"]),
-			Role:          common.ToString(userMap["Role"]),
+			UserName:      common.ToString(userMap["UserName"]),
+			UserType:      common.ToUint(userMap["UserType"]),
+			ProfilePic:    common.ToString(userMap["ProfilePic"]),
 			BiometricData: common.DecodeBase64(common.ToString(userMap["BiometricData"])),
+			Active:        common.ToUint(userMap["Active"]),
 			// Password:      toString(userMap["Password"]),
-			CreatedAt:     common.ParseTime(userMap["CreatedAt"]),
+			CreatedAt:     common.ToString(userMap["CreatedAt"]),
 			CreatedBy:     common.ToString(userMap["CreatedBy"]),
-			ModifiedAt:    common.ParseTime(userMap["ModifiedAt"]),
+			ModifiedAt:    common.ToString(userMap["ModifiedAt"]),
 			ModifiedBy:    common.ToString(userMap["ModifiedBy"]),
 		}
 

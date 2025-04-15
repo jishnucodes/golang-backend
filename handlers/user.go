@@ -115,6 +115,8 @@ func (handler *UserHandler) GetAUser(ctx *gin.Context) {
 	//Use ParseJSONResponse to parse the userManagerResponse data
 	parsedData := common.ParseJSONResponse(userManagerResponse, ctx)
 
+	fmt.Println("parsedData", parsedData)
+
 	fmt.Printf("Parsed data type: %T\n", parsedData)
 
 	response := builder.BuildUserDTOs(parsedData)
