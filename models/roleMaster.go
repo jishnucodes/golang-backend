@@ -4,7 +4,7 @@ import "time"
 
 // RoleMaster represents the role master table in the database
 type CMSRolesMaster struct {
-	ID         uint           `gorm:"primaryKey;column:Id"`
+	Id         uint           `gorm:"primaryKey;column:Id"`
 	RoleName   string        `gorm:"column:RoleName;type:nvarchar(100);not null"`
 	Active     uint          `gorm:"column:Active;type:bit"`
 	CreatedAt  time.Time        `gorm:"column:CreatedAt;type:timestamp;default:CURRENT_TIMESTAMP"`

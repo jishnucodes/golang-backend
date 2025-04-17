@@ -137,6 +137,7 @@ func (um *userManager) CreateUser(userData *requestData.UserObj) (*spResponse.Re
     if err != nil {
         return nil, fmt.Errorf("failed to marshal user data: %w", err)
     }
+    fmt.Println("userJSON:", string(userJSON))
 
     // Create an instance of the stored procedure executor
     spExecutor := common.NewStoredProcedureExecutor()

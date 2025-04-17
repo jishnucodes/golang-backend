@@ -16,7 +16,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 func fmtlog(params ...any) {
 	fmt.Println(params...)
 	log.Println(params...)
@@ -25,7 +24,6 @@ func fmtlog(params ...any) {
 func init() {
 	database.Initialize()
 }
-
 
 func main() {
 	fmt.Println("Hello guys")
@@ -66,10 +64,9 @@ func main() {
 		}
 	}
 	fmtlog("Running on port", port)
-	
+
 	router := gin.Default()
 
-	
 	userManager := managers.NewUserManager()
 	userHandler := handlers.NewUserHandler(userManager)
 	userHandler.RegisterApis(router)
@@ -85,7 +82,19 @@ func main() {
 	doctorAvailabilityManager := managers.NewDoctorAvailabilityManager()
 	doctorAvailabilityHandler := handlers.NewDoctorAvailabilityHandler(doctorAvailabilityManager)
 	doctorAvailabilityHandler.RegisterApis(router)
-	
+
+	roleManager := managers.NewRoleManager()
+	roleHandler := handlers.NewRoleHandler(roleManager)
+	roleHandler.RegisterApis(router)
+
+	departmentManager := managers.NewDepartmentManager()
+	departmentHandler := handlers.NewDepartmentHandler(departmentManager)
+	departmentHandler.RegisterApis(router)
+
+	employeeManager := managers.NewEmployeeManager()
+	employeeHandler := handlers.NewEmployeeHandler(employeeManager)
+	employeeHandler.RegisterApis(router)
+
 	s := &http.Server{
 		Addr:           ":" + port, //":5005",
 		Handler:        router,

@@ -15,6 +15,7 @@ type UserObj struct {
 	Address       string    `json:"address"`
 	UserName      string    `json:"userName"`
 	UserType      uint       `json:"userType"`
+	Role          []RoleObj  `json:"role"` // Changed to []RoleObj to match the expected input type
 	ProfilePic    string    `json:"profilePic"`	
 	BiometricData []byte    `json:"biometricData"`
 	PasswordHash  string    `json:"password"`

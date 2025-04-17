@@ -176,6 +176,8 @@ func (handler *UserHandler) UpdateUser(ctx *gin.Context) {
 	//Use ParseJSONResponse to parse the userManagerResponse data
 	parsedData := common.ParseJSONResponse(userManagerResponse, ctx)
 
+	fmt.Println("ParsedData", parsedData)
+
 	response := builder.BuildUserDTOs(parsedData)
 
 	// Send success response
