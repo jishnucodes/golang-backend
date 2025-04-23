@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 )
 
 func fmtlog(params ...any) {
@@ -66,6 +67,8 @@ func main() {
 	fmtlog("Running on port", port)
 
 	router := gin.Default()
+
+	router.Use(cors.Default())
 
 	userManager := managers.NewUserManager()
 	userHandler := handlers.NewUserHandler(userManager)
