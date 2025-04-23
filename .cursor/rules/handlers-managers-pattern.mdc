@@ -1,0 +1,90 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Handlers and Managers Pattern
+
+This document outlines the standard pattern used for handlers and managers in the clinic management system.
+
+## Directory Structure
+
+- [handlers/](mdc:handlers) - Contains all HTTP request handlers
+- [managers/](mdc:managers) - Contains business logic and stored procedure interactions
+
+## Pattern Overview
+
+The codebase follows a consistent pattern for implementing CRUD operations:
+
+1. Each entity (e.g., Patient, Employee, Department) has:
+   - A handler file in `handlers/` (e.g., [handlers/patient.go](mdc:handlers/patient.go))
+   - A manager file in `managers/` (e.g., [managers/patient.go](mdc:managers/patient.go))
+   - A DTO builder in `builder/` (e.g., [builder/patient.go](mdc:builder/patient.go))
+
+## Handler Pattern
+
+Handlers follow this structure:
+1. Define a struct with groupName and manager interface
+2. Implement RegisterApis for route registration
+3. Implement CRUD operation methods:
+   - List (GET /list)
+   - Get Single (GET /:id)
+   - Create (POST /create)
+   - Update (PUT /update/:id)
+   - Delete (DELETE /delete/:id)
+
+Example from [handlers/patient.go](mdc:handlers/patient.go):
+```go
+type PatientHandler struct {
+    groupName      string
+    patientManager managers.PatientManager
+}
+```
+
+## Manager Pattern
+
+Managers follow this structure:
+1. Define an interface with CRUD methods
+2. Implement the interface with stored procedure calls
+3. Use common.StoredProcedureExecutor for database operations
+4. Convert between DTOs and JSON for stored procedure parameters
+
+Example from [managers/patient.go](mdc:managers/patient.go):
+```go
+type PatientManager interface {
+    GetPatients() (*spResponse.Result, error)
+    GetAPatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+    CreatePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+    UpdatePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+    DeletePatient(patientData *requestData.PatientCreationInput) (*spResponse.Result, error)
+}
+```
+
+## Common Patterns
+
+1. Error Handling:
+   - Use `common.HandleServerError` for consistent error responses
+   - Return early after error handling
+
+2. Response Formatting:
+   - Use `common.ParseJSONResponse` to parse stored procedure results
+   - Use builder package to convert data to DTOs
+   - Use `common.SendSuccess` for consistent success responses
+
+3. Request Validation:
+   - Use `common.BindJSONAndValidate` for request body validation
+   - Use `common.GetParamAsUint` for URL parameter parsing
+
+4. Logging:
+   - Log operation completion with `log.Println`
+   - Use `fmt.Printf` for debugging data types and content
+
+## API Endpoint Pattern
+
+Standard REST endpoints for each entity:
+- GET /api/{entity}/list - List all
+- GET /api/{entity}/:id - Get single
+- POST /api/{entity}/create - Create new
+- PUT /api/{entity}/update/:id - Update existing
+- DELETE /api/{entity}/delete/:id - Delete existing
+
