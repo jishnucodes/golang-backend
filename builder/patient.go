@@ -33,11 +33,11 @@ func BuildPatientDTO(patientData *requestData.PatientObj) *PatientDTO {
 	patientObj.LastName = patientData.LastName
 	patientObj.InsuranceID = patientData.InsuranceID
 	patientObj.BloodGroup = patientData.BloodGroup
-	patientObj.DOB = patientData.DOB.Format("2006-01-02 15:04:05")
+	patientObj.DOB = patientData.DOB
 	patientObj.Gender = patientData.Gender
 	patientObj.MedicalHistory = patientData.MedicalHistory
-	patientObj.CreatedAt = patientData.CreatedAt.Format("2006-01-02 15:04:05")
-	patientObj.ModifiedAt = patientData.ModifiedAt.Format("2006-01-02 15:04:05")
+	patientObj.CreatedAt = patientData.CreatedAt
+	patientObj.ModifiedAt = patientData.ModifiedAt
 	patientObj.CreatedBy = patientData.CreatedBy
 	patientObj.ModifiedBy = patientData.ModifiedBy
 

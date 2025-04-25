@@ -1,6 +1,6 @@
 package requestData
 
-import "time"
+// import "time"
 
 type PatientObj struct {
 	PatientID      uint      `json:"patientId"`	
@@ -9,13 +9,13 @@ type PatientObj struct {
 	LastName       string    `json:"lastName"`
 	InsuranceID    uint      `json:"insuranceId"`
 	BloodGroup     string    `json:"bloodGroup"`
-	DOB            time.Time `json:"dateOfBirth"`
+	DOB            string `json:"dateOfBirth"`
 	Gender         string    `json:"gender"`
 	MedicalHistory string    `json:"medicalHistory"`
 	CreatedBy      string    `json:"createdBy"`
 	ModifiedBy     string    `json:"modifiedBy"`
-	CreatedAt      time.Time `json:"createdAt"`
-	ModifiedAt     time.Time `json:"modifiedAt"`
+	CreatedAt     string `json:"createdAt"`
+	ModifiedAt     string `json:"modifiedAt"`
 }
 
 func NewPatientObj() *PatientObj {
