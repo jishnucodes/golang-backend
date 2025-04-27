@@ -35,9 +35,9 @@ func BuildDepartmentObj(department *requestData.DepartmentObj) *DepartmentDTO {
 	departmentObj.NumberOfStaff = uint(department.NumberOfStaff)
 	departmentObj.ServicesOffered = department.ServicesOffered
 	departmentObj.Status = uint(department.Status)
-	departmentObj.CreatedAt = department.CreatedAt.Format("2006-01-02 15:04:05")
+	departmentObj.CreatedAt = department.CreatedAt
 	departmentObj.CreatedBy = department.CreatedBy
-	departmentObj.ModifiedAt = department.ModifiedAt.Format("2006-01-02 15:04:05")
+	departmentObj.ModifiedAt = department.ModifiedAt
 	departmentObj.ModifiedBy = department.ModifiedBy
 
 	return &departmentObj

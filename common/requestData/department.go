@@ -1,6 +1,6 @@
 package requestData
 
-import "time"
+// import "time"
 
 type DepartmentObj struct {
 	DepartmentID     uint      `json:"departmentId"`
@@ -13,9 +13,9 @@ type DepartmentObj struct {
 	NumberOfStaff    int       `json:"numberOfStaff"`
 	ServicesOffered  string    `json:"servicesOffered"`
 	Status           int       `json:"status"`
-	CreatedAt        time.Time `json:"createdAt"`
+	CreatedAt        string `json:"createdAt"`
 	CreatedBy        string    `json:"createdBy"`
-	ModifiedAt       time.Time `json:"modifiedAt"`
+	ModifiedAt       string `json:"modifiedAt"`
 	ModifiedBy       string    `json:"modifiedBy"`
 }
 
