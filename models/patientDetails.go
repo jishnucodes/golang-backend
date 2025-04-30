@@ -5,6 +5,7 @@ import "time"
 // CMSUser represents the CMS_Users table
 type CMSPatients struct {
 	PatientID        uint      `gorm:"primaryKey;autoIncrement;column:PatientID"`
+	PatientCode    string   `gorm:"column:PatientCode"`
 	Salutation      string    `gorm:"column:Salutation"`
 	FirstName     string    `gorm:"column:FirstName"`
 	LastName      string    `gorm:"column:LastName"`
@@ -12,6 +13,9 @@ type CMSPatients struct {
 	BloodGroup    string    `gorm:"column:BloodGroup"`
 	DOB           time.Time `gorm:"column:DOB"`                     // Corrected: date → time.Time
 	Gender        string    `gorm:"column:Gender"`
+	MobileNumber  string    `gorm:"column:MobileNumber"`
+	ContactName   string    `gorm:"column:ContactName"`
+	Relation      string    `gorm:"column:Relation"`
 	MedicalHistory string    `gorm:"column:MedicalHistory"`
 	CreatedAt     time.Time `gorm:"column:CreatedAt"`
 	CreatedBy     string    `gorm:"column:CreatedBy"`               // Corrected: varchar → string

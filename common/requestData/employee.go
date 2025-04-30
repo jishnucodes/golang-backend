@@ -1,11 +1,13 @@
 package requestData
 
-import "time"
+// import "time"
 
 type EmployeeObj struct {
 	EmployeeID    uint      `json:"employeeId"`
 	EmployeeCode  string    `json:"employeeCode"`
-	UserID        uint      `json:"userId"`
+	UserName      string    `json:"userName"`
+	Password      string    `json:"password"`
+	ProfileImage  string    `json:"profileImage"`
 	FirstName     string    `json:"firstName"`
 	LastName      string    `json:"lastName"` 
 	Email         string    `json:"email"`
@@ -13,13 +15,13 @@ type EmployeeObj struct {
 	MobileNumber  string    `json:"mobileNumber"`
 	Address       string    `json:"address"`
 	BloodGroup    string    `json:"bloodGroup"`
-	HireDate      time.Time `json:"hireDate"`
+	HireDate      string    `json:"hireDate"`
 	JobTitle      string    `json:"jobTitle"`
 	DepartmentID  uint      `json:"departmentId"`
 	EmployeeType  string    `json:"employeeType"`
-	CreatedAt     time.Time `json:"createdAt"`
+	CreatedAt     string    `json:"createdAt"`
 	CreatedBy     string    `json:"createdBy"`
-	ModifiedAt    time.Time `json:"modifiedAt"`
+	ModifiedAt    string    `json:"modifiedAt"`
 	ModifiedBy    string    `json:"modifiedBy"`
 }
 

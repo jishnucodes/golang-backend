@@ -9,7 +9,9 @@ import (
 type EmployeeDTO struct {
 	EmployeeID    uint   `json:"employeeId"`
 	EmployeeCode  string `json:"employeeCode"`
-	UserID        uint   `json:"userId"`
+	UserName      string `json:"userName"`
+	Password      string `json:"password"`
+	ProfileImage  string `json:"profileImage"`
 	FirstName     string `json:"firstName"`
 	LastName      string `json:"lastName"`
 	Email         string `json:"email"`
@@ -33,7 +35,9 @@ func BuildEmployeeDTO(employeeData *requestData.EmployeeObj) *EmployeeDTO {
 
 	employeeObj.EmployeeID = employeeData.EmployeeID
 	employeeObj.EmployeeCode = employeeData.EmployeeCode
-	employeeObj.UserID = employeeData.UserID
+	employeeObj.UserName = employeeData.UserName
+	employeeObj.Password = employeeData.Password
+	employeeObj.ProfileImage = employeeData.ProfileImage
 	employeeObj.FirstName = employeeData.FirstName
 	employeeObj.LastName = employeeData.LastName
 	employeeObj.Email = employeeData.Email
@@ -41,13 +45,13 @@ func BuildEmployeeDTO(employeeData *requestData.EmployeeObj) *EmployeeDTO {
 	employeeObj.MobileNumber = employeeData.MobileNumber
 	employeeObj.Address = employeeData.Address
 	employeeObj.BloodGroup = employeeData.BloodGroup
-	employeeObj.HireDate = employeeData.HireDate.Format("2006-01-02 15:04:05")
+	employeeObj.HireDate = employeeData.HireDate
 	employeeObj.JobTitle = employeeData.JobTitle
 	employeeObj.DepartmentID = employeeData.DepartmentID
 	employeeObj.EmployeeType = employeeData.EmployeeType
-	employeeObj.CreatedAt = employeeData.CreatedAt.Format("2006-01-02 15:04:05")
+	employeeObj.CreatedAt = employeeData.CreatedAt
 	employeeObj.CreatedBy = employeeData.CreatedBy
-	employeeObj.ModifiedAt = employeeData.ModifiedAt.Format("2006-01-02 15:04:05")
+	employeeObj.ModifiedAt = employeeData.ModifiedAt
 	employeeObj.ModifiedBy = employeeData.ModifiedBy
 
 	return &employeeObj
@@ -61,7 +65,9 @@ func BuildEmployeeDTOs(employeesData []map[string]interface{}) []*EmployeeDTO {
 		employeeDTO := &EmployeeDTO{
 			EmployeeID:    common.ToUint(employeeMap["EmployeeID"]),
 			EmployeeCode:  common.ToString(employeeMap["EmployeeCode"]),
-			UserID:        common.ToUint(employeeMap["UserID"]),
+			UserName:      common.ToString(employeeMap["UserName"]),
+			Password:      common.ToString(employeeMap["Password"]),
+			ProfileImage:  common.ToString(employeeMap["ProfileImage"]),
 			FirstName:     common.ToString(employeeMap["FirstName"]),
 			LastName:      common.ToString(employeeMap["LastName"]),
 			Email:         common.ToString(employeeMap["Email"]),
