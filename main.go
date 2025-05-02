@@ -102,6 +102,11 @@ func main() {
 	autoNumberHandler := handlers.NewAutoNumberHandler(autoNumberManager)
 	autoNumberHandler.RegisterApis(router)
 
+	employeeLeaveManager := managers.NewEmployeeLeaveManager()
+	employeeLeaveHandler := handlers.NewEmployeeLeaveHandler(employeeLeaveManager)
+	employeeLeaveHandler.RegisterApis(router)
+
+
 
 	s := &http.Server{
 		Addr:           ":" + port, //":5005",
