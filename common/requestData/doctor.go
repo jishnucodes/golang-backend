@@ -1,21 +1,25 @@
 package requestData
 
 import (
-	"time"
+	// "time"
 )
 
 type DoctorObj struct {
 	DoctorID        uint      `json:"doctorId"`
 	FirstName       string    `json:"firstName"`
 	LastName        string    `json:"lastName"`
-	Specialty       string    `json:"specialty"`
-	ContactNumber   string    `json:"contactNumber"`
 	Email           string    `json:"email"`
+	PhoneNumber     string    `json:"phoneNumber"`
+	MobileNumber    string    `json:"mobileNumber"`
+	DepartmentName  string    `json:"departmentName"`
+	EmployeeID      uint    `json:"employeeId"`
+	DepartmentID    uint    `json:"departmentId"`
+	Specialty       string    `json:"specialty"`
 	ConsultationFee float64   `json:"consultationFee"`
-	CreatedAt       time.Time `json:"createdAt"`
+	CreatedAt       string    `json:"createdAt"`
 	CreatedBy       string    `json:"createdBy"`
 	ModifiedBy      string    `json:"modifiedBy"`
-	ModifiedAt      time.Time `json:"modifiedAt"`
+	ModifiedAt      string    `json:"modifiedAt"`
 }
 
 func NewDoctorObj() *DoctorObj {
