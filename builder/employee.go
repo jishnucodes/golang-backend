@@ -22,7 +22,8 @@ type EmployeeDTO struct {
 	HireDate      string `json:"hireDate"`
 	JobTitle      string `json:"jobTitle"`
 	DepartmentID  uint   `json:"departmentId"`
-	EmployeeType  string `json:"employeeType"`
+	Type          uint   `json:"type"`
+	EmployeeType  uint   `json:"employeeType"`
 	CreatedAt     string `json:"createdAt"`
 	CreatedBy     string `json:"createdBy"`
 	ModifiedAt    string `json:"modifiedAt"`
@@ -48,6 +49,7 @@ func BuildEmployeeDTO(employeeData *requestData.EmployeeObj) *EmployeeDTO {
 	employeeObj.HireDate = employeeData.HireDate
 	employeeObj.JobTitle = employeeData.JobTitle
 	employeeObj.DepartmentID = employeeData.DepartmentID
+	employeeObj.Type = employeeData.Type
 	employeeObj.EmployeeType = employeeData.EmployeeType
 	employeeObj.CreatedAt = employeeData.CreatedAt
 	employeeObj.CreatedBy = employeeData.CreatedBy
@@ -78,7 +80,8 @@ func BuildEmployeeDTOs(employeesData []map[string]interface{}) []*EmployeeDTO {
 			HireDate:      common.ToString(employeeMap["HireDate"]),
 			JobTitle:      common.ToString(employeeMap["JobTitle"]),
 			DepartmentID:  common.ToUint(employeeMap["Department"]),
-			EmployeeType:  common.ToString(employeeMap["EmployeeType"]),
+			Type:          common.ToUint(employeeMap["Type"]),
+			EmployeeType:  common.ToUint(employeeMap["EmployeeType"]),
 			CreatedAt:     common.ToString(employeeMap["CreatedAt"]),
 			CreatedBy:     common.ToString(employeeMap["CreatedBy"]),
 			ModifiedAt:    common.ToString(employeeMap["ModifiedAt"]),

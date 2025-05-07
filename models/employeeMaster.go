@@ -17,7 +17,7 @@ type CMSEmployeeMaster struct {
 	HireDate      time.Time `gorm:"column:HireDate"`
 	JobTitle      string    `gorm:"column:JobTitle;type:varchar(50)"`
 	DepartmentID  uint      `gorm:"column:DepartmentID"`
-	EmployeeType  string    `gorm:"column:EmployeeType;type:varchar(20)"`
+	EmployeeType  uint      `gorm:"column:EmployeeType"`
 	CreatedAt     time.Time `gorm:"column:CreatedAt"`
 	CreatedBy     string    `gorm:"column:CreatedBy;type:varchar(50)"`
 	ModifiedAt    time.Time `gorm:"column:ModifiedAt"`

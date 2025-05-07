@@ -11,7 +11,7 @@ import (
 
 // EmployeeManager interface defines the methods for employee management
 type EmployeeManager interface {
-	GetEmployees() (*spResponse.Result, error)
+	GetEmployees(query *requestData.SearchQuery) (*spResponse.Result, error)
 	GetAEmployee(employeeData *requestData.EmployeeObj) (*spResponse.Result, error)
 	CreateEmployee(employeeData *requestData.EmployeeObj) (*spResponse.Result, error)
 	UpdateEmployee(employeeData *requestData.EmployeeObj) (*spResponse.Result, error)
@@ -26,12 +26,19 @@ func NewEmployeeManager() EmployeeManager {
 	return &employeeManager{}
 }
 
-func (em *employeeManager) GetEmployees() (*spResponse.Result, error) {
+func (em *employeeManager) GetEmployees(query *requestData.SearchQuery) (*spResponse.Result, error) {
 	// Create an instance of StoredProcedureExecutor
 	spExecutor := common.NewStoredProcedureExecutor()
 
+	// Convert query to JSON
+	queryJSON, err := json.Marshal(query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal query: %w", err)
+	}
+	fmt.Println("queryJSON:", string(queryJSON))
+
 	// Execute the stored procedure and capture the result
-	data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_ListEmployees", nil)
+	data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_ListEmployees @EmployeeJSON = ?", []interface{}{string(queryJSON)})
 	if err != nil {
 		return nil, fmt.Errorf("error executing stored procedure: %w", err)
 	}

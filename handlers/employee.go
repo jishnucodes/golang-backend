@@ -17,6 +17,7 @@ type EmployeeHandler struct {
 	employeeManager managers.EmployeeManager
 }
 
+
 func NewEmployeeHandler(employeeManager managers.EmployeeManager) *EmployeeHandler {
 	return &EmployeeHandler{
 		"api/employee",
@@ -34,7 +35,13 @@ func (handler *EmployeeHandler) RegisterApis(r *gin.Engine) {
 }
 
 func (handler *EmployeeHandler) EmployeeList(ctx *gin.Context) {
-	employeeManagerResponse, err := handler.employeeManager.GetEmployees()
+	query := &requestData.SearchQuery{}
+	if err := ctx.ShouldBindQuery(&query); err != nil {
+		common.SendError(ctx, http.StatusBadRequest, 0, "Invalid query parameters", err)
+		return
+	}
+
+	employeeManagerResponse, err := handler.employeeManager.GetEmployees(query)
 	if common.HandleServerError(ctx, employeeManagerResponse, err) {
 		return // Exit if an error occurred (response is already sent)
 	}
