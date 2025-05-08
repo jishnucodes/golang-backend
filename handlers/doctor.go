@@ -27,7 +27,7 @@ func NewDoctorHandler(doctorManager managers.DoctorManager) *DoctorHandler {
 func (handler *DoctorHandler) RegisterApis(r *gin.Engine) {
 	doctorGroup := r.Group(handler.groupName)
 	doctorGroup.GET("/list", handler.DoctorList)
-	doctorGroup.GET("/:doctorId", handler.GetADoctor)
+	doctorGroup.GET("/:employeeId", handler.GetADoctor)
 	doctorGroup.POST("/create", handler.InsertDoctor)
 	doctorGroup.PUT("/update/:doctorId", handler.UpdateDoctor)
 	doctorGroup.DELETE("/delete/:doctorId", handler.DeleteADoctor)
@@ -59,12 +59,12 @@ func (handler *DoctorHandler) GetADoctor(ctx *gin.Context) {
 	// Create a new doctor object
 	doctorData := requestData.NewDoctorObj()
 
-	doctorId, err := common.GetParamAsUint(ctx, "doctorId")
+	employeeId, err := common.GetParamAsUint(ctx, "employeeId")
 	if err != nil {
 		return // The function already sends an error response, so just return
 	}
 	// Assign the doctor ID to the doctorData object
-	doctorData.DoctorID = uint(doctorId)
+	doctorData.EmployeeID = uint(employeeId)
 
 	// Call the get a doctor method in the doctor manager
 	doctorManagerResponse, err := handler.doctorManager.GetADoctor(doctorData)
@@ -77,6 +77,8 @@ func (handler *DoctorHandler) GetADoctor(ctx *gin.Context) {
 
 	// Use ParseJSONResponse to parse the doctorManagerResponse data
 	parsedData := common.ParseJSONResponse(doctorManagerResponse, ctx)
+
+	fmt.Println("parsedData", parsedData)
 
 	fmt.Printf("Parsed data type: %T\n", parsedData)
 

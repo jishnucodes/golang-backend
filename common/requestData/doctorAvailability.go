@@ -1,8 +1,5 @@
 package requestData
 
-import (
-	"time"
-)
 
 type DoctorAvailabilityObj struct {
 	AvailabilityID     uint      `json:"availabilityId"`
@@ -10,10 +7,11 @@ type DoctorAvailabilityObj struct {
 	DayOfWeek          string    `json:"dayOfWeek"`
 	AvailableTimeStart string    `json:"availableTimeStart"`
 	AvailableTimeEnd   string    `json:"availableTimeEnd"`
-	CreatedAt          time.Time `json:"createdAt"`
+	WeekType           string    `json:"weekType"`
+	CreatedAt          string    `json:"createdAt"`
 	CreatedBy          string    `json:"createdBy"`
 	ModifiedBy         string    `json:"modifiedBy"`
-	ModifiedAt         time.Time `json:"modifiedAt"`
+	ModifiedAt         string    `json:"modifiedAt"`
 }
 
 func NewDoctorAvailabilityObj() *DoctorAvailabilityObj {

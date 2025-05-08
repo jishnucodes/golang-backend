@@ -22,6 +22,7 @@ type EmployeeDTO struct {
 	HireDate      string `json:"hireDate"`
 	JobTitle      string `json:"jobTitle"`
 	DepartmentID  uint   `json:"departmentId"`
+	Department    uint `json:"department"`
 	Type          uint   `json:"type"`
 	EmployeeType  uint   `json:"employeeType"`
 	CreatedAt     string `json:"createdAt"`
@@ -48,7 +49,13 @@ func BuildEmployeeDTO(employeeData *requestData.EmployeeObj) *EmployeeDTO {
 	employeeObj.BloodGroup = employeeData.BloodGroup
 	employeeObj.HireDate = employeeData.HireDate
 	employeeObj.JobTitle = employeeData.JobTitle
-	employeeObj.DepartmentID = employeeData.DepartmentID
+	if employeeData.DepartmentID != 0 {
+		employeeObj.DepartmentID = employeeData.DepartmentID
+	} else {
+		employeeObj.DepartmentID = employeeData.Department
+	}
+	
+	// employeeObj.Department = employeeData.Department
 	employeeObj.Type = employeeData.Type
 	employeeObj.EmployeeType = employeeData.EmployeeType
 	employeeObj.CreatedAt = employeeData.CreatedAt

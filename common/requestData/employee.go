@@ -19,6 +19,7 @@ type EmployeeObj struct {
 	JobTitle      string    `json:"jobTitle"`
 	Type           uint      `json:"type"`
 	DepartmentID  uint      `json:"departmentId"`
+	Department    uint      `json:"department"`
 	EmployeeType  uint      `json:"employeeType"`
 	CreatedAt     string    `json:"createdAt"`
 	CreatedBy     string    `json:"createdBy"`

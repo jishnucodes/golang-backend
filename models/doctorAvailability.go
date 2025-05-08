@@ -11,6 +11,7 @@ type CMSDoctorAvailability struct {
 	DayOfWeek          string    `gorm:"column:DayOfWeek;type:enum('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')"`
 	AvailableTimeStart time.Time `gorm:"column:AvailableTimeStart;type:time"`
 	AvailableTimeEnd   time.Time `gorm:"column:AvailableTimeEnd;type:time"`
+	WeekType           string    `gorm:"column:WeekType"`
 	CreatedAt          time.Time `gorm:"column:CreatedAt"`
 	CreatedBy          string    `gorm:"column:CreatedBy"`
 	ModifiedBy         string    `gorm:"column:ModifiedBy"`
