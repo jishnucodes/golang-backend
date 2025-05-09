@@ -20,6 +20,8 @@ type EmployeeDTO struct {
 	Address       string `json:"address"`
 	BloodGroup    string `json:"bloodGroup"`
 	HireDate      string `json:"hireDate"`
+	Specialty     string `json:"specialty"`
+	ConsultationFee float64 `json:"consultationFee"`
 	JobTitle      string `json:"jobTitle"`
 	DepartmentID  uint   `json:"departmentId"`
 	Department    uint `json:"department"`
@@ -85,6 +87,8 @@ func BuildEmployeeDTOs(employeesData []map[string]interface{}) []*EmployeeDTO {
 			Address:       common.ToString(employeeMap["Address"]),
 			BloodGroup:    common.ToString(employeeMap["BloodGroup"]),
 			HireDate:      common.ToString(employeeMap["HireDate"]),
+			Specialty:     common.ToString(employeeMap["Specialty"]),
+			ConsultationFee: common.ToFloat64(employeeMap["ConsultationFee"]),
 			JobTitle:      common.ToString(employeeMap["JobTitle"]),
 			DepartmentID:  common.ToUint(employeeMap["Department"]),
 			Type:          common.ToUint(employeeMap["Type"]),
