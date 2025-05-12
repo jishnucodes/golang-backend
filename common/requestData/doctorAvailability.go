@@ -9,8 +9,8 @@ type DoctorAvailabilityObj struct {
 	AvailableTimeEnd   string    `json:"availableTimeEnd"`
 	WeekType           string    `json:"weekType"`
 	CreatedAt          string    `json:"createdAt"`
-	CreatedBy          string    `json:"createdBy"`
-	ModifiedBy         string    `json:"modifiedBy"`
+	CreatedBy          uint    `json:"createdBy"`
+	ModifiedBy         uint    `json:"modifiedBy"`
 	ModifiedAt         string    `json:"modifiedAt"`
 }
 

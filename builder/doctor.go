@@ -18,8 +18,8 @@ type DoctorDTO struct {
 	Employee        EmployeeDTO              `json:"employee"`
 	Availabilities  []*DoctorAvailabilityDTO `json:"availabilities"`
 	CreatedAt       string                   `json:"createdAt"`
-	CreatedBy       string                   `json:"createdBy"`
-	ModifiedBy      string                   `json:"modifiedBy"`
+	CreatedBy       uint                     `json:"createdBy"`
+	ModifiedBy      uint                     `json:"modifiedBy"`
 	ModifiedAt      string                   `json:"modifiedAt"`
 }
 
@@ -103,8 +103,8 @@ func BuildDoctorDTOs(doctorsData []map[string]interface{}) []*DoctorDTO {
 				return nil
 			}(),
 			CreatedAt:       common.ToString(doctorMap["CreatedAt"]),
-			CreatedBy:       common.ToString(doctorMap["CreatedBy"]),
-			ModifiedBy:      common.ToString(doctorMap["ModifiedBy"]),
+			CreatedBy:       common.ToUint(doctorMap["CreatedBy"]),
+			ModifiedBy:      common.ToUint(doctorMap["ModifiedBy"]),
 			ModifiedAt:      common.ToString(doctorMap["ModifiedAt"]),
 		}
 

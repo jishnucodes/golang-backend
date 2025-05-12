@@ -12,8 +12,8 @@ type DoctorObj struct {
 	Employee        EmployeeObj             `json:"employee"`
 	Availabilities  []DoctorAvailabilityObj `json:"availabilities"`
 	CreatedAt       string                  `json:"createdAt"`
-	CreatedBy       string                  `json:"createdBy"`
-	ModifiedBy      string                  `json:"modifiedBy"`
+	CreatedBy       uint                    `json:"createdBy"`
+	ModifiedBy      uint                    `json:"modifiedBy"`
 	ModifiedAt      string                  `json:"modifiedAt"`
 }
 

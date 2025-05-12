@@ -19,8 +19,8 @@ type DoctorAvailabilityDTO struct {
 	WeekType           string `json:"weekType"`
 	// CreatedAt          time.Time `json:"createdAt"`
 	CreatedAt          string `json:"createdAt"`
-	CreatedBy          string `json:"createdBy"`
-	ModifiedBy         string `json:"modifiedBy"`
+	CreatedBy          uint `json:"createdBy"`
+	ModifiedBy         uint `json:"modifiedBy"`
 	ModifiedAt         string `json:"modifiedAt"`
 }
 
@@ -55,8 +55,8 @@ func BuildDoctorAvailabilityDTOs(availabilitiesData []map[string]interface{}) []
 			AvailableTimeEnd:   common.ToString(availabilityMap["AvailableTimeEnd"]),
 			WeekType:           common.ToString(availabilityMap["WeekType"]),
 			CreatedAt:          common.ToString(availabilityMap["CreatedAt"]),
-			CreatedBy:          common.ToString(availabilityMap["CreatedBy"]),
-			ModifiedBy:         common.ToString(availabilityMap["ModifiedBy"]),
+			CreatedBy:          common.ToUint(availabilityMap["CreatedBy"]),
+			ModifiedBy:         common.ToUint(availabilityMap["ModifiedBy"]),
 			ModifiedAt:         common.ToString(availabilityMap["ModifiedAt"]),
 		}
 

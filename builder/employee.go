@@ -28,9 +28,9 @@ type EmployeeDTO struct {
 	Type          uint   `json:"type"`
 	EmployeeType  uint   `json:"employeeType"`
 	CreatedAt     string `json:"createdAt"`
-	CreatedBy     string `json:"createdBy"`
+	CreatedBy     uint `json:"createdBy"`
 	ModifiedAt    string `json:"modifiedAt"`
-	ModifiedBy    string `json:"modifiedBy"`
+	ModifiedBy    uint `json:"modifiedBy"`
 }
 
 // BuildEmployeeDTO constructs and returns an EmployeeDTO from employeeData
@@ -94,9 +94,9 @@ func BuildEmployeeDTOs(employeesData []map[string]interface{}) []*EmployeeDTO {
 			Type:          common.ToUint(employeeMap["Type"]),
 			EmployeeType:  common.ToUint(employeeMap["EmployeeType"]),
 			CreatedAt:     common.ToString(employeeMap["CreatedAt"]),
-			CreatedBy:     common.ToString(employeeMap["CreatedBy"]),
+			CreatedBy:     common.ToUint(employeeMap["CreatedBy"]),
 			ModifiedAt:    common.ToString(employeeMap["ModifiedAt"]),
-			ModifiedBy:    common.ToString(employeeMap["ModifiedBy"]),
+			ModifiedBy:    common.ToUint(employeeMap["ModifiedBy"]),
 		}
 		employeeDTOs = append(employeeDTOs, employeeDTO)
 	}

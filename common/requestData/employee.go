@@ -22,9 +22,9 @@ type EmployeeObj struct {
 	Department    uint      `json:"department"`
 	EmployeeType  uint      `json:"employeeType"`
 	CreatedAt     string    `json:"createdAt"`
-	CreatedBy     string    `json:"createdBy"`
+	CreatedBy     uint      `json:"createdBy"`
 	ModifiedAt    string    `json:"modifiedAt"`
-	ModifiedBy    string    `json:"modifiedBy"`
+	ModifiedBy    uint      `json:"modifiedBy"`
 }
 
 
