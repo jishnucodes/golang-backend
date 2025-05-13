@@ -14,9 +14,9 @@ type CMSEmployeeLeaveMaster struct {
 	Remarks    string    `gorm:"column:Remarks"`
 	LeaveType  uint      `gorm:"column:LeaveType"`
 	CreatedAt  time.Time `gorm:"column:CreatedAt"`
-	CreatedBy  string    `gorm:"column:CreatedBy"`
+	CreatedBy  uint    `gorm:"column:CreatedBy"`
 	ModifiedAt time.Time `gorm:"column:ModifiedAt"`
-	ModifiedBy string    `gorm:"column:ModifiedBy"`
+	ModifiedBy uint    `gorm:"column:ModifiedBy"`
 
 	EmployeeMaster *CMSEmployeeMaster `gorm:"foreignKey:EmployeeID"`
 }

@@ -13,8 +13,8 @@ type CMSDoctorAvailability struct {
 	AvailableTimeEnd   time.Time `gorm:"column:AvailableTimeEnd;type:time"`
 	WeekType           string    `gorm:"column:WeekType"`
 	CreatedAt          time.Time `gorm:"column:CreatedAt"`
-	CreatedBy          string    `gorm:"column:CreatedBy"`
-	ModifiedBy         string    `gorm:"column:ModifiedBy"`
+	CreatedBy          uint    `gorm:"column:CreatedBy"`
+	ModifiedBy         uint    `gorm:"column:ModifiedBy"`
 	ModifiedAt         time.Time `gorm:"column:ModifiedAt"`
 
 	// Relationship with Doctor

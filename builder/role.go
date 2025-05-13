@@ -10,9 +10,9 @@ type RoleDTO struct {
 	RoleName   string `json:"roleName"`
 	Active     uint   `json:"active"`
 	CreatedAt  string `json:"createdAt"`
-	CreatedBy  string `json:"createdBy"`
+	CreatedBy  uint `json:"createdBy"`
 	ModifiedAt string `json:"modifiedAt"`
-	ModifiedBy string `json:"modifiedBy"`
+	ModifiedBy uint `json:"modifiedBy"`
 }
 
 func BuildRoleDTO(role *requestData.RoleObj) *RoleDTO {
@@ -38,9 +38,9 @@ func BuildRoleDTOs(rolesData []map[string]interface{}	) []*RoleDTO {
 			RoleName:   common.ToString(roleMap["RoleName"]),
 			Active:     common.ToUint(roleMap["Active"]),
 			CreatedAt:  common.ToString(roleMap["CreatedAt"]),
-			CreatedBy:  common.ToString(roleMap["CreatedBy"]),
+			CreatedBy:  common.ToUint(roleMap["CreatedBy"]),
 			ModifiedAt: common.ToString(roleMap["ModifiedAt"]),
-			ModifiedBy: common.ToString(roleMap["ModifiedBy"]),
+			ModifiedBy: common.ToUint(roleMap["ModifiedBy"]),
 		}
 		roleDTOs = append(roleDTOs, roleDTO)
 	}

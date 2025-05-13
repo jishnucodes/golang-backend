@@ -11,8 +11,8 @@ type CMSDoctor struct {
 	Specialty       string    `gorm:"column:Specialty"`
 	ConsultationFee float64   `gorm:"column:ConsultationFee;type:decimal(10,2)"`
 	CreatedAt       time.Time `gorm:"column:CreatedAt"`
-	CreatedBy       string    `gorm:"column:CreatedBy"`
-	ModifiedBy      string    `gorm:"column:ModifiedBy"`
+	CreatedBy       uint    `gorm:"column:CreatedBy"`
+	ModifiedBy      uint    `gorm:"column:ModifiedBy"`
 	ModifiedAt      time.Time `gorm:"column:ModifiedAt"`
 
 	EmployeeMaster *CMSEmployeeMaster `gorm:"foreignKey:EmployeeID"`

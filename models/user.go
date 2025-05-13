@@ -19,9 +19,9 @@ type CMSUser struct {
 	PasswordHash  string    `gorm:"column:PasswordHash"`
 	Active        uint       `gorm:"column:Active"`
 	CreatedAt     time.Time `gorm:"column:CreatedAt"`
-	CreatedBy     string    `gorm:"column:CreatedBy"`
+	CreatedBy     uint    `gorm:"column:CreatedBy"`
 	ModifiedAt    time.Time `gorm:"column:ModifiedAt"`
-	ModifiedBy    string    `gorm:"column:ModifiedBy"`
+	ModifiedBy    uint    `gorm:"column:ModifiedBy"`
 }
 
 // TableName overrides the default table name

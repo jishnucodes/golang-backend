@@ -21,9 +21,9 @@ type UserObj struct {
 	PasswordHash  string    `json:"password"`
 	Active        uint       `json:"active"`
 	CreatedAt     time.Time `json:"createdAt"`
-	CreatedBy     string    `json:"createdBy"`
+	CreatedBy     uint    `json:"createdBy"`
 	ModifiedAt    time.Time `json:"modifiedAt"`
-	ModifiedBy    string    `json:"modifiedBy"`
+	ModifiedBy    uint    `json:"modifiedBy"`
 }
 type UserCreationInput struct {
 	FirstName string `json:"firstName"` //this is called field tag (the format of object)

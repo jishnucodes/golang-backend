@@ -24,8 +24,8 @@ type PatientDTO struct {
 	MedicalHistory string    `json:"medicalHistory"`
 	CreatedAt      string    `json:"createdAt"`
 	ModifiedAt     string    `json:"modifiedAt"`
-	CreatedBy      string    `json:"createdBy"`
-	ModifiedBy     string    `json:"modifiedBy"`
+	CreatedBy      uint    `json:"createdBy"`
+	ModifiedBy     uint    `json:"modifiedBy"`
 }
 
 // BuildUserDTO constructs and returns a UserDTO from userData.
@@ -76,8 +76,8 @@ func BuildPatientDTOs(patientsData []map[string]interface{}) []*PatientDTO {
 			MedicalHistory: common.ToString(patientMap["MedicalHistory"]),
 			CreatedAt:      common.ToString(patientMap["CreatedAt"]),
 			ModifiedAt:     common.ToString(patientMap["ModifiedAt"]),
-			CreatedBy:      common.ToString(patientMap["CreatedBy"]),
-			ModifiedBy:     common.ToString(patientMap["ModifiedBy"]),
+			CreatedBy:      common.ToUint(patientMap["CreatedBy"]),
+			ModifiedBy:     common.ToUint(patientMap["ModifiedBy"]),
 		}
 
 		patientDTOs = append(patientDTOs, patientDTO)

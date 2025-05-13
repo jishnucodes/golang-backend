@@ -24,9 +24,9 @@ type UserDTO struct {
 	Password      string     `json:"password"`
 	Active        uint       `json:"active"`
 	CreatedAt     string     `json:"createdAt"`
-	CreatedBy     string     `json:"createdBy"`
+	CreatedBy     uint     `json:"createdBy"`
 	ModifiedAt    string     `json:"modifiedAt"`
-	ModifiedBy    string     `json:"modifiedBy"`
+	ModifiedBy    uint     `json:"modifiedBy"`
 }
 
 // BuildUserDTO constructs and returns a UserDTO from userData.
@@ -114,9 +114,9 @@ func BuildUserDTOs(usersData []map[string]interface{}) []*UserDTO {
 			Active:        common.ToUint(userMap["Active"]),
 			// Password:      toString(userMap["Password"]),
 			CreatedAt:  common.ToString(userMap["CreatedAt"]),
-			CreatedBy:  common.ToString(userMap["CreatedBy"]),
+			CreatedBy:  common.ToUint(userMap["CreatedBy"]),
 			ModifiedAt: common.ToString(userMap["ModifiedAt"]),
-			ModifiedBy: common.ToString(userMap["ModifiedBy"]),
+			ModifiedBy: common.ToUint(userMap["ModifiedBy"]),
 		}
 
 		userDTOs = append(userDTOs, userDTO)

@@ -14,9 +14,9 @@ type DepartmentObj struct {
 	ServicesOffered  string    `json:"servicesOffered"`
 	Status           int       `json:"status"`
 	CreatedAt        string `json:"createdAt"`
-	CreatedBy        string    `json:"createdBy"`
+	CreatedBy        uint    `json:"createdBy"`
 	ModifiedAt       string `json:"modifiedAt"`
-	ModifiedBy       string    `json:"modifiedBy"`
+	ModifiedBy       uint    `json:"modifiedBy"`
 }
 
 func NewDepartmentObj() *DepartmentObj {

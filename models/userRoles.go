@@ -10,8 +10,8 @@ type CMSUserRoles struct {
 	RoleID     uint           `gorm:"column:RoleId;not null"`
 	UserID     uint           `gorm:"column:UserId;not null"`
 	CreatedAt  time.Time      `gorm:"column:CreatedAt;type:timestamp;default:CURRENT_TIMESTAMP"`
-	CreatedBy  string         `gorm:"column:CreatedBy;type:varchar(50)"`
-	ModifiedBy string         `gorm:"column:ModifiedBy;type:varchar(50)"`
+	CreatedBy  uint         `gorm:"column:CreatedBy;type:int"`
+	ModifiedBy uint         `gorm:"column:ModifiedBy;type:int"`
 	ModifiedAt time.Time      `gorm:"column:ModifiedAt;type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 	Role       CMSRolesMaster `gorm:"foreignKey:RoleId"`
 	User       CMSUser        `gorm:"foreignKey:UserId"`

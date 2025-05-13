@@ -18,9 +18,9 @@ type CMSPatients struct {
 	Relation      string    `gorm:"column:Relation"`
 	MedicalHistory string    `gorm:"column:MedicalHistory"`
 	CreatedAt     time.Time `gorm:"column:CreatedAt"`
-	CreatedBy     string    `gorm:"column:CreatedBy"`               // Corrected: varchar → string
+	CreatedBy     uint    `gorm:"column:CreatedBy"`               // Corrected: varchar → string
 	ModifiedAt    time.Time `gorm:"column:ModifiedAt"`
-	ModifiedBy    string    `gorm:"column:ModifiedBy"`              // Corrected: varchar → string
+	ModifiedBy    uint    `gorm:"column:ModifiedBy"`              // Corrected: varchar → string
 
 	// User           CMSUser      `gorm:"foreignKey:UserID;references:UserID;constraint:OnDelete:CASCADE"`
 }

@@ -17,8 +17,8 @@ type PatientObj struct {
 	Relation       string    `json:"relation"`
 	Type           uint      `json:"type"`
 	MedicalHistory string    `json:"medicalHistory"`
-	CreatedBy      string    `json:"createdBy"`
-	ModifiedBy     string    `json:"modifiedBy"`
+	CreatedBy      uint    `json:"createdBy"`
+	ModifiedBy     uint    `json:"modifiedBy"`
 	CreatedAt      string    `json:"createdAt"`
 	ModifiedAt     string    `json:"modifiedAt"`
 }

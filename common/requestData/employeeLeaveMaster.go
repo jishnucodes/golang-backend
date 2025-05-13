@@ -13,9 +13,9 @@ type EmployeeLeaveObj struct {
 	Remarks       string    `json:"remarks"`
 	LeaveType     uint      `json:"leaveType"`
 	CreatedAt     string    `json:"createdAt"`
-	CreatedBy     string    `json:"createdBy"`
+	CreatedBy     uint    `json:"createdBy"`
 	ModifiedAt    string    `json:"modifiedAt"`
-	ModifiedBy    string    `json:"modifiedBy"`
+	ModifiedBy    uint    `json:"modifiedBy"`
 }
 
 func NewEmployeeLeaveObj() *EmployeeLeaveObj {

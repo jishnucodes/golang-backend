@@ -9,9 +9,9 @@ type RoleObj struct {
 	RoleName   string    `json:"roleName"`
 	Active     uint      `json:"active"`
 	CreatedAt  time.Time `json:"createdAt"`
-	CreatedBy  string    `json:"createdBy"`
+	CreatedBy  uint    `json:"createdBy"`
 	ModifiedAt time.Time `json:"modifiedAt"`
-	ModifiedBy string    `json:"modifiedBy"`
+	ModifiedBy uint    `json:"modifiedBy"`
 }
 
 func NewRoleObj() *RoleObj {

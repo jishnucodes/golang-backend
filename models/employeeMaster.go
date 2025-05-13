@@ -19,9 +19,9 @@ type CMSEmployeeMaster struct {
 	DepartmentID  uint      `gorm:"column:DepartmentID"`
 	EmployeeType  uint      `gorm:"column:EmployeeType"`
 	CreatedAt     time.Time `gorm:"column:CreatedAt"`
-	CreatedBy     string    `gorm:"column:CreatedBy;type:varchar(50)"`
+	CreatedBy     uint    `gorm:"column:CreatedBy;type:int"`
 	ModifiedAt    time.Time `gorm:"column:ModifiedAt"`
-	ModifiedBy    string    `gorm:"column:ModifiedBy;type:varchar(50)"`
+	ModifiedBy    uint    `gorm:"column:ModifiedBy;type:int"`
 
 	User *CMSUser `gorm:"foreignKey:UserID"`
 	Department *CMSDepartments `gorm:"foreignKey:DepartmentID"`

@@ -17,9 +17,9 @@ type DepartmentDTO struct {
 	ServicesOffered  string    `json:"servicesOffered"`
 	Status           uint      `json:"status"`
 	CreatedAt        string    `json:"createdAt"`
-	CreatedBy        string    `json:"createdBy"`
+	CreatedBy        uint    `json:"createdBy"`
 	ModifiedAt       string    `json:"modifiedAt"`
-	ModifiedBy       string    `json:"modifiedBy"`
+	ModifiedBy       uint    `json:"modifiedBy"`
 }
 
 
@@ -60,9 +60,9 @@ func BuildDepartmentDTOs(departmentData []map[string]interface{}) []*DepartmentD
 			ServicesOffered:  common.ToString(departmentMap["ServicesOffered"]),
 			Status:           common.ToUint(departmentMap["Status"]),
 			CreatedAt:        common.ToString(departmentMap["CreatedAt"]),
-			CreatedBy:        common.ToString(departmentMap["CreatedBy"]),
+			CreatedBy:        common.ToUint(departmentMap["CreatedBy"]),
 			ModifiedAt:       common.ToString(departmentMap["ModifiedAt"]),
-			ModifiedBy:       common.ToString(departmentMap["ModifiedBy"]),
+			ModifiedBy:       common.ToUint(departmentMap["ModifiedBy"]),
 		}
 		departmentDTOs = append(departmentDTOs, departmentDTO)
 	}

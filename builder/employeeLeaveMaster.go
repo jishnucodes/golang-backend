@@ -17,9 +17,9 @@ type EmployeeLeaveDTO struct {
 	Remarks       string `json:"remarks"`
 	LeaveType     uint   `json:"leaveType"`
 	CreatedAt     string `json:"createdAt"`
-	CreatedBy     string `json:"createdBy"`
+	CreatedBy     uint   `json:"createdBy"`
 	ModifiedAt    string `json:"modifiedAt"`
-	ModifiedBy    string `json:"modifiedBy"`
+	ModifiedBy    uint   `json:"modifiedBy"`
 }
 
 // BuildEmployeeDTO constructs and returns an EmployeeDTO from employeeData
@@ -59,9 +59,9 @@ func BuildEmployeeLeaveDTOs(employeeLeaveData []map[string]interface{}) []*Emplo
 			Remarks:       common.ToString(employeeLeaveMap["Remarks"]),
 			LeaveType:     common.ToUint(employeeLeaveMap["LeaveType"]),
 			CreatedAt:     common.ToString(employeeLeaveMap["CreatedAt"]),
-			CreatedBy:     common.ToString(employeeLeaveMap["CreatedBy"]),
+			CreatedBy:     common.ToUint(employeeLeaveMap["CreatedBy"]),
 			ModifiedAt:    common.ToString(employeeLeaveMap["ModifiedAt"]),
-			ModifiedBy:    common.ToString(employeeLeaveMap["ModifiedBy"]),
+			ModifiedBy:    common.ToUint(employeeLeaveMap["ModifiedBy"]),
 		}
 		employeeLeaveDTOs = append(employeeLeaveDTOs, employeeLeaveDTO)
 	}
