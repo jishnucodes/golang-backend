@@ -21,6 +21,9 @@ type EmployeeObj struct {
 	DepartmentID  uint      `json:"departmentId"`
 	Department    uint      `json:"department"`
 	EmployeeType  uint      `json:"employeeType"`
+	IsOnLeave    bool      `json:"isOnLeave"`
+	LeaveDateFrom string    `json:"leaveDateFrom"`
+	LeaveDateTo   string    `json:"leaveDateTo"`
 	CreatedAt     string    `json:"createdAt"`
 	CreatedBy     uint      `json:"createdBy"`
 	ModifiedAt    string    `json:"modifiedAt"`
@@ -30,6 +33,12 @@ type EmployeeObj struct {
 
 type SearchQuery struct {
 	EmployeeType *int `form:"employeeType" json:"employeeType"`
+}
+
+type DoctorSearchQuery struct {
+	EmployeeType *int `form:"employeeType" json:"employeeType"`
+	DepartmentID *int `form:"departmentId" json:"departmentId"`
+	InputDate    *string `form:"inputDate" json:"inputDate"`
 }
 
 func NewEmployeeObj() *EmployeeObj {

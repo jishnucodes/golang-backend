@@ -27,6 +27,9 @@ type EmployeeDTO struct {
 	Department    uint `json:"department"`
 	Type          uint   `json:"type"`
 	EmployeeType  uint   `json:"employeeType"`
+	IsOnLeave    bool      `json:"isOnLeave"`
+	LeaveDateFrom string    `json:"leaveDateFrom"`
+	LeaveDateTo   string    `json:"leaveDateTo"`
 	CreatedAt     string `json:"createdAt"`
 	CreatedBy     uint `json:"createdBy"`
 	ModifiedAt    string `json:"modifiedAt"`
@@ -60,6 +63,9 @@ func BuildEmployeeDTO(employeeData *requestData.EmployeeObj) *EmployeeDTO {
 	// employeeObj.Department = employeeData.Department
 	employeeObj.Type = employeeData.Type
 	employeeObj.EmployeeType = employeeData.EmployeeType
+	employeeObj.IsOnLeave = employeeData.IsOnLeave
+	employeeObj.LeaveDateFrom = employeeData.LeaveDateFrom
+	employeeObj.LeaveDateTo = employeeData.LeaveDateTo
 	employeeObj.CreatedAt = employeeData.CreatedAt
 	employeeObj.CreatedBy = employeeData.CreatedBy
 	employeeObj.ModifiedAt = employeeData.ModifiedAt
@@ -93,6 +99,9 @@ func BuildEmployeeDTOs(employeesData []map[string]interface{}) []*EmployeeDTO {
 			DepartmentID:  common.ToUint(employeeMap["Department"]),
 			Type:          common.ToUint(employeeMap["Type"]),
 			EmployeeType:  common.ToUint(employeeMap["EmployeeType"]),
+			IsOnLeave:     common.ToBool(employeeMap["IsOnLeave"]),
+			LeaveDateFrom: common.ToString(employeeMap["LeaveDateFrom"]),
+			LeaveDateTo:   common.ToString(employeeMap["LeaveDateTo"]),
 			CreatedAt:     common.ToString(employeeMap["CreatedAt"]),
 			CreatedBy:     common.ToUint(employeeMap["CreatedBy"]),
 			ModifiedAt:    common.ToString(employeeMap["ModifiedAt"]),

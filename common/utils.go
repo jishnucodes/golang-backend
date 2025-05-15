@@ -213,3 +213,19 @@ func ToInt(value interface{}) int {
 	}
 	return 0
 }
+
+
+func ToBool(value interface{}) bool {
+	if value == nil {
+		return false
+	}
+	switch v := value.(type) {
+	case bool:
+		return v
+	case string:
+		if b, err := strconv.ParseBool(v); err == nil {
+			return b
+		}
+	}
+	return false
+}

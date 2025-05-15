@@ -34,7 +34,13 @@ func (handler *DoctorHandler) RegisterApis(r *gin.Engine) {
 }
 
 func (handler *DoctorHandler) DoctorList(ctx *gin.Context) {
-	doctorManagerResponse, err := handler.doctorManager.GetDoctors()
+
+	query := &requestData.DoctorSearchQuery{}
+	if err := ctx.ShouldBindQuery(&query); err != nil {
+		common.SendError(ctx, http.StatusBadRequest, 0, "Invalid query parameters", err)
+		return
+	}
+	doctorManagerResponse, err := handler.doctorManager.GetDoctors(query)
 	// This error block will work when the store procedure catch block catches an error
 	if common.HandleServerError(ctx, doctorManagerResponse, err) {
 		return // Exit if an error occurred (response is already sent)
@@ -45,8 +51,9 @@ func (handler *DoctorHandler) DoctorList(ctx *gin.Context) {
 
 	// Use ParseJSONResponse to parse the doctorManagerResponse data
 	parsedData := common.ParseJSONResponse(doctorManagerResponse, ctx)
+	fmt.Println("parsedData", parsedData)
 
-	response := builder.BuildDoctorDTOs(parsedData)
+	response := builder.BuildEmployeeDTOs(parsedData)
 
 	fmt.Println("response", response)
 
