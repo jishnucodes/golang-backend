@@ -51,6 +51,7 @@ func Initialize() {
 	DB.AutoMigrate(&models.CMSDepartments{})
 	DB.AutoMigrate(&models.CMSAutoNumber{})
 	DB.AutoMigrate(&models.CMSEmployeeLeaveMaster{})
+	DB.AutoMigrate(&models.CMSAppointments{})
 
 
 	log.Println("Connected to SQL Server using GORM")

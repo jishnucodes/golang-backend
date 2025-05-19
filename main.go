@@ -106,6 +106,10 @@ func main() {
 	employeeLeaveHandler := handlers.NewEmployeeLeaveHandler(employeeLeaveManager)
 	employeeLeaveHandler.RegisterApis(router)
 
+	appointmentManager := managers.NewAppointmentManager()
+	appointmentHandler := handlers.NewAppointmentHandler(appointmentManager)
+	appointmentHandler.RegisterApis(router)
+
 
 
 	s := &http.Server{
