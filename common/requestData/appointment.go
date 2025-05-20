@@ -18,6 +18,12 @@ type AppointmentObj struct {
 	ModifiedBy          uint   `json:"modifiedBy"`
 }
 
+
+type AppointmentSearchQuery struct {
+	DoctorID *int `form:"doctorId" json:"doctorId"`
+	InputDate    *string `form:"inputDate" json:"inputDate"`
+}
+
 func NewAppointmentObj() *AppointmentObj {
 	return &AppointmentObj{}
 }

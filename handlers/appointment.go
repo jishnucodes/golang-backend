@@ -5,6 +5,7 @@ import (
 	"clinic-management/backend/common"
 	"clinic-management/backend/common/requestData"
 	"clinic-management/backend/managers"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -26,9 +27,38 @@ func NewAppointmentHandler(appointmentManager managers.AppointmentManager) *Appo
 
 func (handler *AppointmentHandler) RegisterApis(r *gin.Engine) {
 	appointmentGroup := r.Group(handler.groupName)
+	appointmentGroup.GET("/list", handler.GetAppointmentsOfDoctorByDate)
 	appointmentGroup.POST("/create", handler.InsertAppointment)
 }
 
+
+func (handler *AppointmentHandler) GetAppointmentsOfDoctorByDate(ctx *gin.Context) {
+	query := &requestData.AppointmentSearchQuery{}
+	if err := ctx.ShouldBindQuery(&query); err != nil {
+		common.SendError(ctx, http.StatusBadRequest, 0, "Invalid query parameters", err)
+		return
+	}
+	appointmentManagerResponse, err := handler.appointmentManager.GetAppointmentsOfDoctorByDate(query)
+	// This error block will work when the store procedure catch block catches an error
+	if common.HandleServerError(ctx, appointmentManagerResponse, err) {
+		return // Exit if an error occurred (response is already sent)
+	}
+
+	fmt.Printf("appointments.Data type: %T\n", appointmentManagerResponse.Data)
+	fmt.Println("appointments.Data content:", appointmentManagerResponse.Data)
+
+	// Use ParseJSONResponse to parse the appointmentManagerResponse data
+	parsedData := common.ParseJSONResponse(appointmentManagerResponse, ctx)
+	fmt.Println("parsedData", parsedData)
+
+	response := builder.BuildAppointmentDTOs(parsedData)
+
+	fmt.Println("response", response)
+
+	common.SendSuccess(ctx, http.StatusOK, appointmentManagerResponse.Status, appointmentManagerResponse.StatusMessage, response)
+
+	log.Println("Appointments of doctor fetched successfully")
+}
 
 func (handler *AppointmentHandler) InsertAppointment(ctx *gin.Context) {
 	appointmentData := requestData.NewAppointmentObj()
