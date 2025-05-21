@@ -17,6 +17,12 @@ type DoctorObj struct {
 	ModifiedAt      string                  `json:"modifiedAt"`
 }
 
+type ListDoctorByMonthSearchQuery struct {
+	DepartmentId *int `form:"departmentId" json:"departmentId"`
+	Month        *int `form:"month" json:"month"`
+	Year         *int `form:"year" json:"year"`
+}
+
 func NewDoctorObj() *DoctorObj {
 	return &DoctorObj{}
 }

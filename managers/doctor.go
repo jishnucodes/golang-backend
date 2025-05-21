@@ -12,6 +12,7 @@ import (
 // DoctorManager interface defines the methods for doctor operations
 type DoctorManager interface {
 	GetDoctors(query *requestData.DoctorSearchQuery ) (*spResponse.Result, error)
+	ListDoctorAvailabilityAndLeavesByMonth(query *requestData.ListDoctorByMonthSearchQuery ) (*spResponse.Result, error)
 	GetADoctor(doctorData *requestData.DoctorObj) (*spResponse.Result, error)
 	CreateDoctor(doctorData *requestData.DoctorObj) (*spResponse.Result, error)
 	UpdateDoctor(doctorData *requestData.DoctorObj) (*spResponse.Result, error)
@@ -39,6 +40,30 @@ func (dm *doctorManager) GetDoctors(query *requestData.DoctorSearchQuery ) (*spR
 
 	// Execute the stored procedure and capture the result
 	data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_ListDoctors @DoctorJSON =?", []interface{}{string(queryJSON)})
+	if err != nil {
+		return nil, fmt.Errorf("error executing stored procedure: %w", err)
+	}
+
+	// Print the result data and its type for debugging
+	fmt.Println("data:", data)
+	fmt.Println("data type:", fmt.Sprintf("%T", data))
+
+	return data, nil
+}
+
+func (dm *doctorManager) ListDoctorAvailabilityAndLeavesByMonth(query *requestData.ListDoctorByMonthSearchQuery ) (*spResponse.Result, error) {
+	// Create an instance of StoredProcedureExecutor
+	spExecutor := common.NewStoredProcedureExecutor()
+
+	// Convert query to JSON
+	queryJSON, err := json.Marshal(query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal query: %w", err)
+	}
+	fmt.Println("queryJSON:", string(queryJSON))
+
+	// Execute the stored procedure and capture the result
+	data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_ListDoctorMonthlyAvailability @DoctorJSON =?", []interface{}{string(queryJSON)})
 	if err != nil {
 		return nil, fmt.Errorf("error executing stored procedure: %w", err)
 	}

@@ -27,6 +27,7 @@ func NewDoctorHandler(doctorManager managers.DoctorManager) *DoctorHandler {
 func (handler *DoctorHandler) RegisterApis(r *gin.Engine) {
 	doctorGroup := r.Group(handler.groupName)
 	doctorGroup.GET("/list", handler.DoctorList)
+	doctorGroup.GET("/calendar/list", handler.ListDoctorAvailabilityAndLeavesByMonth )
 	doctorGroup.GET("/:employeeId", handler.GetADoctor)
 	doctorGroup.POST("/create", handler.InsertDoctor)
 	doctorGroup.PUT("/update/:doctorId", handler.UpdateDoctor)
@@ -62,6 +63,34 @@ func (handler *DoctorHandler) DoctorList(ctx *gin.Context) {
 	log.Println("doctors fetched successfully")
 }
 
+func (handler *DoctorHandler) ListDoctorAvailabilityAndLeavesByMonth(ctx *gin.Context) {
+
+	query := &requestData.ListDoctorByMonthSearchQuery{}
+	if err := ctx.ShouldBindQuery(&query); err != nil {
+		common.SendError(ctx, http.StatusBadRequest, 0, "Invalid query parameters", err)
+		return
+	}
+	doctorManagerResponse, err := handler.doctorManager.ListDoctorAvailabilityAndLeavesByMonth(query)
+	// This error block will work when the store procedure catch block catches an error
+	if common.HandleServerError(ctx, doctorManagerResponse, err) {
+		return // Exit if an error occurred (response is already sent)
+	}
+
+	fmt.Printf("doctors.Data type: %T\n", doctorManagerResponse.Data)
+	fmt.Println("doctors.Data content:", doctorManagerResponse.Data)
+
+	// Use ParseJSONResponse to parse the doctorManagerResponse data
+	parsedData := common.ParseJSONResponse(doctorManagerResponse, ctx)
+	fmt.Println("parsedData", parsedData)
+
+	response := builder.BuildDoctorDTOs(parsedData)
+
+	fmt.Println("response", response)
+
+	common.SendSuccess(ctx, http.StatusOK, doctorManagerResponse.Status, doctorManagerResponse.StatusMessage, response)
+
+	log.Println("doctors fetched successfully")
+}
 func (handler *DoctorHandler) GetADoctor(ctx *gin.Context) {
 	// Create a new doctor object
 	doctorData := requestData.NewDoctorObj()

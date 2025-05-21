@@ -17,6 +17,7 @@ type DoctorDTO struct {
 	ConsultationFee float64                  `json:"consultationFee"`
 	Employee        EmployeeDTO              `json:"employee"`
 	Availabilities  []*DoctorAvailabilityDTO `json:"availabilities"`
+	Leaves			[]*EmployeeLeaveDTO		 `json:"leaves"`
 	CreatedAt       string                   `json:"createdAt"`
 	CreatedBy       uint                     `json:"createdBy"`
 	ModifiedBy      uint                     `json:"modifiedBy"`
@@ -49,6 +50,7 @@ func BuildDoctorDTO(doctorData *requestData.DoctorObj) *DoctorDTO {
 		}
 		availabilitiesData = append(availabilitiesData, availabilityMap)
 	}
+
 	doctorDTO.Availabilities = BuildDoctorAvailabilityDTOs(availabilitiesData)
 	doctorDTO.CreatedAt = doctorData.CreatedAt
 	doctorDTO.CreatedBy = doctorData.CreatedBy
@@ -98,6 +100,21 @@ func BuildDoctorDTOs(doctorsData []map[string]interface{}) []*DoctorDTO {
 							}
 						}
 						return BuildDoctorAvailabilityDTOs(avlData)
+					}
+				}
+				return nil
+			}(),
+			// Convert []interface{} to []map[string]interface{} for Availabilities
+			Leaves: func() []*EmployeeLeaveDTO {
+				if rawLeaves, ok := doctorMap["Leaves"]; ok && rawLeaves != nil {
+					if leaveSlice, ok := rawLeaves.([]interface{}); ok {
+						var leaveData []map[string]interface{}
+						for _, a := range leaveSlice {
+							if leaveMap, ok := a.(map[string]interface{}); ok {
+								leaveData = append(leaveData, leaveMap)
+							}
+						}
+						return BuildEmployeeLeaveDTOs(leaveData)
 					}
 				}
 				return nil
