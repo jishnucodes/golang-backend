@@ -12,6 +12,8 @@ type AppointmentObj struct {
 	AppointmentType     uint   `json:"appointmentType"`
 	Status              uint   `json:"status"`
 	CallingCount        uint   `json:"callingCount"`
+	PaymentDate         string `json:"paymentDate"`
+	ConfirmedBy         uint   `json:"confirmedBy"`
 	CreatedAt           string `json:"createdAt"`
 	CreatedBy           uint   `json:"createdBy"`
 	ModifiedAt          string `json:"modifiedAt"`
