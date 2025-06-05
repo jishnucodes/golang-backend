@@ -15,6 +15,7 @@ type AppointmentDTO struct {
 	AppointmentType     uint   `json:"appointmentType"`
 	Status              uint   `json:"status"`
 	CallingCount        uint   `json:"callingCount"`
+	OrderIndex          uint   `json:"orderIndex"`
 	ConfirmedBy         uint   `json:"confirmedBy"`
 	PaymentDate         string `json:"paymentDate"`
 	CreatedAt           string `json:"createdAt"`
@@ -36,6 +37,7 @@ func BuildAppointmentDTO(appointmentData *requestData.AppointmentObj) *Appointme
 	appointmentDTO.AppointmentType = appointmentData.AppointmentType
 	appointmentDTO.Status = appointmentData.Status
 	appointmentDTO.CallingCount = appointmentData.CallingCount
+	appointmentDTO.OrderIndex = appointmentData.OrderIndex
 	appointmentDTO.ConfirmedBy = appointmentData.ConfirmedBy
 	appointmentDTO.PaymentDate = appointmentData.PaymentDate
 	appointmentDTO.CreatedAt = appointmentData.CreatedAt
@@ -61,6 +63,7 @@ func BuildAppointmentDTOs(appointmentData []map[string]interface{}) []*Appointme
 			AppointmentType:     common.ToUint(appointmentMap["AppointmentType"]),
 			Status:              common.ToUint(appointmentMap["Status"]),
 			CallingCount:        common.ToUint(appointmentMap["CallingCount"]),
+			OrderIndex:          common.ToUint(appointmentMap["OrderIndex"]),
 			PaymentDate:         common.ToString(appointmentMap["PaymentDate"]),
 			CreatedAt:           common.ToString(appointmentMap["CreatedAt"]),
 			ModifiedAt:          common.ToString(appointmentMap["ModifiedAt"]),

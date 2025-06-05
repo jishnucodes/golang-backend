@@ -14,16 +14,16 @@ type AppointmentObj struct {
 	CallingCount        uint   `json:"callingCount"`
 	PaymentDate         string `json:"paymentDate"`
 	ConfirmedBy         uint   `json:"confirmedBy"`
+	OrderIndex          uint   `json:"orderIndex"`
 	CreatedAt           string `json:"createdAt"`
 	CreatedBy           uint   `json:"createdBy"`
 	ModifiedAt          string `json:"modifiedAt"`
 	ModifiedBy          uint   `json:"modifiedBy"`
 }
 
-
 type AppointmentSearchQuery struct {
-	DoctorID *int `form:"doctorId" json:"doctorId"`
-	InputDate    *string `form:"inputDate" json:"inputDate"`
+	DoctorID  *int    `form:"doctorId" json:"doctorId"`
+	InputDate *string `form:"inputDate" json:"inputDate"`
 }
 
 func NewAppointmentObj() *AppointmentObj {

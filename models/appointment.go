@@ -13,6 +13,7 @@ type CMSAppointments struct {
 	AppointmentType     uint      `gorm:"column:AppointmentType"`
 	Status              uint      `gorm:"column:Status"`
 	CallingCount        uint      `gorm:"column:CallingCount"`
+	OrderIndex          uint      `gorm:"column:OrderIndex"`
 	CreatedAt           time.Time `gorm:"column:CreatedAt"`
 	CreatedBy           uint      `gorm:"column:CreatedBy;type:int"`
 	ModifiedAt          time.Time `gorm:"column:ModifiedAt"`
