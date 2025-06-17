@@ -26,6 +26,11 @@ type AppointmentSearchQuery struct {
 	InputDate *string `form:"inputDate" json:"inputDate"`
 }
 
+type ActiveAppointmentPatientSearchQuery struct {
+	Status   *int    `form:"status" json:"status"`
+	InputDate *string `form:"inputDate" json:"inputDate"`
+}
+
 func NewAppointmentObj() *AppointmentObj {
 	return &AppointmentObj{}
 }

@@ -114,6 +114,10 @@ func main() {
 	paymentHandler := handlers.NewPaymentHandler(paymentManager)
 	paymentHandler.RegisterApis(router)
 
+	consultationMedicationManager := managers.NewConsultationMedicationManager()
+	consultationMedicationHandler := handlers.NewConsultationMedicationHandler(consultationMedicationManager)
+	consultationMedicationHandler.RegisterApis(router)
+
 
 
 	s := &http.Server{
