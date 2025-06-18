@@ -11,7 +11,8 @@ import (
 
 type ConsultationMedicationManager interface {
 	// GetAppointmentsOfDoctorByDate(query *requestData.AppointmentSearchQuery) (*spResponse.Result, error)
-	CreateConsultationMedicationData(consultationMedicationData *requestData.ConsultationMedicationObj) (*spResponse.Result, error) // UpdateAppointment(appointmentData *requestData.AppointmentObj) (*spResponse.Result, error)
+	CreateConsultationMedicationData(consultationMedicationData *requestData.ConsultationMedicationObj) (*spResponse.Result, error)
+	UpdateConsultationMedicationData(consultationMedicationData *requestData.ConsultationMedicationObj) (*spResponse.Result, error)
 	// GetPatientByAppointmentActiveStatus(query *requestData.ActiveAppointmentPatientSearchQuery) (*spResponse.Result, error)
 }
 
@@ -54,7 +55,7 @@ func (cm *consultationMedicationManager) CreateConsultationMedicationData(consul
 	// Convert DTO to JSON
 	consultationMedicationJSON, err := json.Marshal(consultationMedicationDTO)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal appointment data: %w", err)
+		return nil, fmt.Errorf("failed to marshal medication data: %w", err)
 	}
 
 	fmt.Println("consultationMedicationJSON", string(consultationMedicationJSON))
@@ -74,31 +75,33 @@ func (cm *consultationMedicationManager) CreateConsultationMedicationData(consul
 	return data, nil
 }
 
-// func (am *appointmentManager) UpdateAppointment(appointmentData *requestData.AppointmentObj) (*spResponse.Result, error) {
-// 	// Convert input to DTO
-// 	appointmentDTO := builder.BuildAppointmentDTO(appointmentData)
-// 	fmt.Println("appointmentDTO:", appointmentDTO)
+func (cm *consultationMedicationManager) UpdateConsultationMedicationData(consultationMedicationData *requestData.ConsultationMedicationObj) (*spResponse.Result, error) {
+	// Convert input to DTO
+	consultationMedicationDTO := builder.BuildConsultationMedicationDTO(consultationMedicationData)
+	fmt.Println("consultationMedicationDTO:", consultationMedicationDTO)
 
-// 	// Convert DTO to JSON
-// 	appointmentJSON, err := json.Marshal(appointmentDTO)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to marshal appointment data: %w", err)
-// 	}
+	// Convert DTO to JSON
+	consultationMedicationJSON, err := json.Marshal(consultationMedicationDTO)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal medication data: %w", err)
+	}
 
-// 	// Create an instance of the stored procedure executor
-// 	spExecutor := common.NewStoredProcedureExecutor()
+	fmt.Println("consultationMedicationJSON", string(consultationMedicationJSON))
 
-// 	// Execute the stored procedure with the appointment data
-// 	data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_UpdateAppointmentById @AppointmentJSON = ?", []interface{}{string(appointmentJSON)})
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error executing stored procedure: %w", err)
-// 	}
+	// Create an instance of the stored procedure executor
+	spExecutor := common.NewStoredProcedureExecutor()
 
-// 	fmt.Println("data:", data)
-// 	fmt.Println("data type:", fmt.Sprintf("%T", data))
+	// Execute the stored procedure with the appointment data
+	data, err := spExecutor.ExecuteStoredProcedure("EXEC sp_CMS_UpdateConsultationMedicationDetails @ConsultationMedicationJSON = ?", []interface{}{string(consultationMedicationJSON)})
+	if err != nil {
+		return nil, fmt.Errorf("error executing stored procedure: %w", err)
+	}
 
-// 	return data, nil
-// }
+	fmt.Println("data:", data)
+	fmt.Println("data type:", fmt.Sprintf("%T", data))
+
+	return data, nil
+}
 
 // func (am *appointmentManager) GetPatientByAppointmentActiveStatus(query *requestData.ActiveAppointmentPatientSearchQuery) (*spResponse.Result, error) {
 // 	// Create an instance of StoredProcedureExecutor

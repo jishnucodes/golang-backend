@@ -28,6 +28,7 @@ func NewConsultationMedicationHandler(consultationMedicationManager managers.Con
 func (handler *ConsultationMedicationHandler) RegisterApis(r *gin.Engine) {
 	consultationMedicationGroup := r.Group(handler.groupName)
 	consultationMedicationGroup.POST("/create", handler.InsertConsultationMedicationDetails)
+	consultationMedicationGroup.PUT("update/:consultationId", handler.UpdateConsultationMedicationDetails)
 }
 
 // func (handler *AppointmentHandler) GetAppointmentsOfDoctorByDate(ctx *gin.Context) {
@@ -91,36 +92,45 @@ func (handler *ConsultationMedicationHandler) InsertConsultationMedicationDetail
 	log.Println("consultation medication details created successfully")
 }
 
-// func (handler *AppointmentHandler) UpdateAppointment(ctx *gin.Context) {
-// 	appointmentData := requestData.NewAppointmentObj()
+func (handler *ConsultationMedicationHandler) UpdateConsultationMedicationDetails(ctx *gin.Context) {
+	consultationMedicationData := requestData.NewConsultationMedicationObj()
 
-// 	// Bind the incoming JSON to the appointmentData object
-// 	if err := common.BindJSONAndValidate(ctx, &appointmentData); err != nil {
-// 		return // Error response is already handled in BindJSONAndValidate
-// 	}
+	// Bind the incoming JSON to the consultation medication Data object
+	if err := common.BindJSONAndValidate(ctx, &consultationMedicationData); err != nil {
+		return // Error response is already handled in BindJSONAndValidate
+	}
 
-// 	appointmentId, err := common.GetParamAsUint(ctx, "appointmentId")
-// 	if err != nil {
-// 		return // The function already sends an error response, so just return
-// 	}
+	jsonData, err := json.MarshalIndent(consultationMedicationData, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshaling data:", err)
+		return
+	}
 
-// 	// Assign the department ID to the departmentData object
-// 	appointmentData.AppointmentID = uint(appointmentId)
+	fmt.Println("consultationMedicationData:", string(jsonData))
 
-// 	appointmentManagerResponse, err := handler.appointmentManager.UpdateAppointment(appointmentData)
+	consultationId, err := common.GetParamAsUint(ctx, "consultationId")
+	if err != nil {
+		return // The function already sends an error response, so just return
+	}
 
-// 	if common.HandleServerError(ctx, appointmentManagerResponse, err) {
-// 		return // Exit if an error occurred (response is already sent)
-// 	}
+	// Assign the consultation ID to the consultation object
+	consultationMedicationData.ConsultationID = uint(consultationId)
 
-// 	//Use ParseJSONResponse to parse the appointmentManagerResponse data
-// 	parsedData := common.ParseJSONResponse(appointmentManagerResponse, ctx)
+	consultationMedicationManagerResponse, err := handler.consultationMedicationManager.UpdateConsultationMedicationData(consultationMedicationData)
 
-// 	response := builder.BuildAppointmentDTOs(parsedData)
 
-// 	common.SendSuccess(ctx, http.StatusCreated, appointmentManagerResponse.Status, appointmentManagerResponse.StatusMessage, response)
-// 	log.Println("appointment updated successfully")
-// }
+	if common.HandleServerError(ctx, consultationMedicationManagerResponse, err) {
+		return // Exit if an error occurred (response is already sent)
+	}
+
+	//Use ParseJSONResponse to parse the consultationMedicationManagerResponse data
+	parsedData := common.ParseJSONResponse(consultationMedicationManagerResponse, ctx)
+
+	response := builder.BuildConsultationMedicationDTOs(parsedData)
+
+	common.SendSuccess(ctx, http.StatusCreated, consultationMedicationManagerResponse.Status, consultationMedicationManagerResponse.StatusMessage, response)
+	log.Println("consultation medication details updated successfully")
+}
 
 // func (handler *AppointmentHandler) GetPatientByAppointmentActiveStatus(ctx *gin.Context) {
 // 	query := &requestData.ActiveAppointmentPatientSearchQuery{}

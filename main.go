@@ -118,6 +118,10 @@ func main() {
 	consultationMedicationHandler := handlers.NewConsultationMedicationHandler(consultationMedicationManager)
 	consultationMedicationHandler.RegisterApis(router)
 
+	//api for adding chat
+	whatsAppChatHandler := handlers.NewWhatsAppHandler()
+	whatsAppChatHandler.RegisterApis(router)
+
 
 
 	s := &http.Server{
