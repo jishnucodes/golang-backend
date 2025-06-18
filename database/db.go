@@ -55,6 +55,8 @@ func Initialize() {
 	DB.AutoMigrate(&models.CMSConsultationHeader{})
 	DB.AutoMigrate(&models.CMSPrescriptionDetails{})
 	DB.AutoMigrate(&models.CMSPrescriptionDosage{})
+    DB.AutoMigrate(&models.CMSMedicineMaster{})
+
 
 
 

@@ -118,6 +118,9 @@ func main() {
 	consultationMedicationHandler := handlers.NewConsultationMedicationHandler(consultationMedicationManager)
 	consultationMedicationHandler.RegisterApis(router)
 
+	medicineMasterManager := managers.NewMedicineMasterManager()
+	medicineMasterHandler := handlers.NewMedicineMasterHandler(medicineMasterManager)
+	medicineMasterHandler.RegisterApis(router)
 	//api for adding chat
 	whatsAppChatHandler := handlers.NewWhatsAppHandler()
 	whatsAppChatHandler.RegisterApis(router)
