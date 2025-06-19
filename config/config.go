@@ -6,9 +6,8 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 )
-
-
 
 // Config struct to match the JSON structure
 type Config struct {
@@ -30,28 +29,44 @@ type Config struct {
 var config Config
 
 func ReadConfig() {
-	// Open our jsonFile
-	fmt.Println("Fetching config data")
-	jsonFile, err := os.Open("config.json")
-	// if we os.Open returns an error then handle it
-	if err != nil {
-		fmt.Println("error opening config.json", err)
-		log.Fatalln("error opening config.json", err)
-	}
+	fmt.Println("Reading config.json...")
 
-	// defer the closing of our jsonFile so that we can parse it later on
+	// 1. Try loading from executable path
+	exePath, err := os.Executable()
+	if err != nil {
+		log.Fatalln("Failed to get executable path:", err)
+	}
+	exeDir := filepath.Dir(exePath)
+	configPath := filepath.Join(exeDir, "config.json")
+
+	// Try to open from executable directory
+	jsonFile, err := os.Open(configPath)
+	if err != nil {
+		// 2. Fallback: Try current working directory
+		fmt.Println("Could not open config.json from executable directory, trying current directory...")
+
+		configPath = "config.json"
+		jsonFile, err = os.Open(configPath)
+		if err != nil {
+			log.Fatalf("Failed to open config.json from both executable and working directory: %v", err)
+		}
+	}
 	defer jsonFile.Close()
 
-	bytevalue, _ := io.ReadAll(jsonFile)
-	err = json.Unmarshal(bytevalue, &config)
+	byteValue, err := io.ReadAll(jsonFile)
 	if err != nil {
-		fmt.Println("Error reading config file", err)
-		log.Fatalln("Error reading config file", err)
-	} else {
-		fmt.Println("Config data", config)
+		log.Fatalln("Error reading config.json:", err)
 	}
 
+	err = json.Unmarshal(byteValue, &config)
+	if err != nil {
+		log.Fatalln("Error parsing config.json:", err)
+	}
+
+	fmt.Println("Config loaded from:", configPath)
 }
+
+
 
 // Getter function to access the config in main.go
 func GetConfig() Config {

@@ -1,0 +1,15 @@
+{
+    "dbserver": {
+        "driver": "sqlserver",
+        "connectionstring": "sqlserver://ubtUser:b01&yU8z2@wish.grabweb.in:5422?database=UBT_Clinic"
+    },
+    "sapserver": {
+        "username": "מנהל2",
+        "password": "1234",
+        "companydb": "Sanitec_2012_c",
+        "servicelayerbaseurl": "https://localhost:50000"
+    },
+    "port": 8088,
+    "httptimeout": 10,
+    "websocketPort": 8089
+}
