@@ -13,8 +13,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func fmtlog(params ...any) {
@@ -53,17 +53,39 @@ func main() {
 	fmt.Println(logFile.Stat())
 	log.SetOutput(logFile)
 
-	port := strconv.Itoa(cfg.Port)
-	envport := os.Getenv("ASPNETCORE_PORT")
-	if envport != "" { // get enviroment variable that set by ACNM
-		_, err := strconv.Atoi(envport)
-		if err != nil {
-			fmtlog("Unable to read port form environment variable ASPNETCORE_PORT", err, envport)
-		} else {
+	// port := strconv.Itoa(cfg.Port)
+	// envport := os.Getenv("ASPNETCORE_PORT")
+	// if envport != "" { // get enviroment variable that set by ACNM
+	// 	_, err := strconv.Atoi(envport)
+	// 	if err != nil {
+	// 		fmtlog("Unable to read port form environment variable ASPNETCORE_PORT", err, envport)
+	// 	} else {
+	// 		port = envport
+	// 		fmtlog("Using port form environment variable ASPNETCORE_PORT", envport)
+	// 	}
+	// }
+	// fmtlog("Running on port", port)
+
+	port := strconv.Itoa(cfg.Port) // default port from config
+
+	// Override if PORT environment variable is set (used by Render and most platforms)
+	if envport := os.Getenv("PORT"); envport != "" {
+		if _, err := strconv.Atoi(envport); err == nil {
 			port = envport
-			fmtlog("Using port form environment variable ASPNETCORE_PORT", envport)
+			fmtlog("Using port from environment variable PORT", envport)
+		} else {
+			fmtlog("Invalid port from environment variable PORT", err, envport)
+		}
+	} else if envport := os.Getenv("ASPNETCORE_PORT"); envport != "" {
+		// Fallback for IIS or Azure
+		if _, err := strconv.Atoi(envport); err == nil {
+			port = envport
+			fmtlog("Using port from ASPNETCORE_PORT", envport)
+		} else {
+			fmtlog("Invalid ASPNETCORE_PORT value", err, envport)
 		}
 	}
+
 	fmtlog("Running on port", port)
 
 	router := gin.Default()
@@ -124,8 +146,6 @@ func main() {
 	//api for adding chat
 	whatsAppChatHandler := handlers.NewWhatsAppHandler()
 	whatsAppChatHandler.RegisterApis(router)
-
-
 
 	s := &http.Server{
 		Addr:           ":" + port, //":5005",
