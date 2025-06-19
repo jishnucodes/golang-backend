@@ -15,6 +15,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func fmtlog(params ...any) {
@@ -65,6 +66,11 @@ func main() {
 	// 	}
 	// }
 	// fmtlog("Running on port", port)
+
+	errors := godotenv.Load()
+	if errors != nil {
+		log.Println("No .env file found or error loading it")
+	}
 
 	port := strconv.Itoa(cfg.Port) // default port from config
 
